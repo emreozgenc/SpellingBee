@@ -25,11 +25,10 @@
 }
 
 .txtfield {
-    -fx-background-color: #333;
-    -fx-text-fill: white;
-    -fx-font-size: 20;
     -fx-font-family: "Ubuntu";
-    -fx-font-weight: 500;
+    -fx-font-size: 16;
+    -fx-text-fill: black;
+    -fx-font-weight: 400;
 }
 
 .btn {
