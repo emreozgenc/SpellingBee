@@ -18,6 +18,7 @@ public class MenuView implements View {
     private final Color BACKGROUND_COLOR = Color.WHITE;
     private final double LOGO_IMAGE_WIDTH = 200;
     private final double PADDING = 50;
+    private final String LOGO_PATH = "logo.png";
 
     private MenuModel model;
     private MenuController controller;
@@ -40,8 +41,8 @@ public class MenuView implements View {
         vBox.setBackground(Background.fill(BACKGROUND_COLOR));
 
         // Logo Image
-        Image logoImage = new Image("logo.png");
-        ImageView imageView = new ImageView(new Image("logo.png"));
+        Image logoImage = new Image(LOGO_PATH);
+        ImageView imageView = new ImageView(logoImage);
         double aspectRatio = logoImage.getWidth() / logoImage.getHeight();
         imageView.setFitWidth(LOGO_IMAGE_WIDTH);
         imageView.setFitHeight(LOGO_IMAGE_WIDTH * aspectRatio);
