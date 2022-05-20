@@ -2,13 +2,11 @@ package spellingbee.views;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -19,13 +17,14 @@ import spellingbee.models.GameModel;
 public class GameView {
     private GameModel model;
     private GameController controller;
+    private final double EDGE = 100;
     private Double[] Hexagon ={
-        200.0, 50.0,
-                300.0, 50.0,
-                350.0, 150.0,
-                300.0, 250.0,
-                200.0, 250.0,
-                150.0, 150.0,
+            0.0, 0.0,
+            EDGE, 0.0,
+            1.5*EDGE, 0.5*EDGE*Math.sqrt(3),
+            EDGE, EDGE*Math.sqrt(3),
+            0.0, EDGE*Math.sqrt(3),
+            -0.5*EDGE, 0.5*EDGE*Math.sqrt(3)
     };
     private Parent parent;
     public  GameView(GameModel model, GameController controller){
@@ -56,12 +55,11 @@ public class GameView {
         hBoxButtons.setAlignment(Pos.CENTER);
         hBoxButtons.setSpacing(5);
 
-
         Polygon polygon = new Polygon();
         polygon.setFill(Color.YELLOW);
 
         TextField textField = new TextField();
-
+        textField.setPromptText("Yaz");
         Button deleteButton = new Button("Delete");
 
         Button refreshButton = new Button("Refresh");
@@ -84,7 +82,7 @@ public class GameView {
         hBoxButtons.getChildren().addAll(deleteButton,refreshButton,enterButton);
 
         rightVBox.getChildren().addAll(hBoxType,hBoxHexagons,hBoxButtons);
-        leftVBox.getChildren().addAll(words,hBoxPoint);
+        leftVBox.getChildren().addAll(hBoxPoint,words);
 
         hBox.getChildren().addAll(rightVBox,leftVBox);
 
