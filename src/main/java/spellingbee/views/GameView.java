@@ -81,10 +81,11 @@ public class GameView {
 
         hBoxButtons.getChildren().addAll(deleteButton,refreshButton,enterButton);
 
-        rightVBox.getChildren().addAll(hBoxType,hBoxHexagons,hBoxButtons);
-        leftVBox.getChildren().addAll(hBoxPoint,words);
+        rightVBox.getChildren().addAll(pointText, words);
 
-        hBox.getChildren().addAll(rightVBox,leftVBox);
+        leftVBox.getChildren().addAll(hBoxType,hBoxHexagons,hBoxButtons);
+
+        hBox.getChildren().addAll(leftVBox,rightVBox);
 
     }
     public Parent getAsParent(){
