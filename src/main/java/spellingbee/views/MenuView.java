@@ -16,11 +16,8 @@ import spellingbee.core.constants.UINames;
 import spellingbee.models.MenuModel;
 
 public class MenuView implements View {
-    private final Color BACKGROUND_COLOR = Color.WHITE;
-    private final double LOGO_IMAGE_WIDTH = 200;
+    private final Color BACKGROUND_COLOR = Color.rgb(255, 209, 0);
     private final double PADDING = 50;
-    private final String LOGO_PATH = "logo.png";
-
     private MenuModel model;
     private MenuController controller;
     private Parent parent;
@@ -41,13 +38,6 @@ public class MenuView implements View {
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(Background.fill(BACKGROUND_COLOR));
-
-        // Logo Image
-        Image logoImage = new Image(LOGO_PATH);
-        ImageView imageView = new ImageView(logoImage);
-        double aspectRatio = logoImage.getWidth() / logoImage.getHeight();
-        imageView.setFitWidth(LOGO_IMAGE_WIDTH);
-        imageView.setFitHeight(LOGO_IMAGE_WIDTH * aspectRatio);
 
         // Text Field
         TextField lettersTextField = new TextField();
@@ -73,7 +63,6 @@ public class MenuView implements View {
         );
 
         vBox.getChildren().addAll(
-                imageView,
                 lettersTextField,
                 hBox
         );
