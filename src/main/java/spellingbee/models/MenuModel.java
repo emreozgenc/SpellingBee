@@ -5,6 +5,7 @@ import javafx.beans.property.StringProperty;
 
 public class MenuModel {
     private StringProperty lettersProperty = new SimpleStringProperty();
+    private StringProperty errorProperty = new SimpleStringProperty();
 
     public void setLettersPropertyValue(String val) {
         lettersProperty.setValue(val);
@@ -16,5 +17,17 @@ public class MenuModel {
 
     public StringProperty getLettersProperty() {
         return lettersProperty;
+    }
+
+    public StringProperty getErrorProperty() {
+        return errorProperty;
+    }
+
+    public String getErrorPropertyValue() {
+        return errorProperty.getValue();
+    }
+
+    public void setErrorPropertyValue(String val) {
+        errorProperty.setValue(val);
     }
 }
