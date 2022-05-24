@@ -8,9 +8,14 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import spellingbee.controllers.GameController;
+import spellingbee.core.data.TxtReader;
+import spellingbee.models.GameModel;
+import spellingbee.views.GameView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -27,11 +32,10 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         this.stage = stage;
-        Label label = new Label("To do");
-        FlowPane parent = new FlowPane(label);
-        parent.setAlignment(Pos.CENTER);
-        stage.setTitle("Spelling Bee v0.0.1");
-        stage.setScene(new Scene(parent, 300, 300));
+        GameModel model = new GameModel();
+        GameController controller = new GameController(model);
+        GameView view = new GameView(model, controller);
+        stage.setScene(new Scene(view.getAsParent()));
         stage.show();
     }
 
@@ -48,7 +52,14 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        TxtReader reader = new TxtReader();
+        List<String> words = reader.read();
+
+        for(int i=0;i<100;i++) {
+            System.out.println(words.get(i));
+        }
         launch();
+
     }
 
 }
