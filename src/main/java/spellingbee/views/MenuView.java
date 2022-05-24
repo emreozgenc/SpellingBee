@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import spellingbee.controllers.MenuController;
+import spellingbee.core.constants.UINames;
 import spellingbee.models.MenuModel;
 
 public class MenuView implements View {
@@ -37,6 +38,7 @@ public class MenuView implements View {
         VBox vBox = new VBox();
         parent = vBox;
         vBox.setPadding(new Insets(PADDING));
+        vBox.setSpacing(10);
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(Background.fill(BACKGROUND_COLOR));
 
@@ -59,15 +61,15 @@ public class MenuView implements View {
         hBox.setPadding(new Insets(10, 0, 0, 0));
 
         // Buttons
-        Button startGameButton = new Button("Oyuna Başla");
-        Button createGameButton = new Button("Oyununu Oluştur");
-        startGameButton.getStyleClass().addAll("btn");
-        createGameButton.getStyleClass().add("btn");
+        Button startButton = new Button(UINames.START_BUTTON);
+        Button exitButton = new Button(UINames.EXIT_BUTTON);
+        startButton.getStyleClass().addAll("btn", "btn-black");
+        exitButton.getStyleClass().addAll("btn", "btn-yellow");
 
         // Add components to parent
         hBox.getChildren().addAll(
-                startGameButton,
-                createGameButton
+                startButton,
+                exitButton
         );
 
         vBox.getChildren().addAll(
