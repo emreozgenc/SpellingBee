@@ -104,11 +104,12 @@ public class GameManager implements GameService {
             totalPoint = 0;
             selectedWords.clear();
             newPangrams.clear();
+            newPangrams.add(pangramWords.get(r.nextInt(pangramWords.size())));
             while (selectedWords.size() < wordCount) {
                 String randomWord = filteredWords.get(r.nextInt(filteredWords.size()));
                 if (!selectedWords.contains(randomWord)) {
                     selectedWords.add(randomWord);
-                    if (pangramWords.contains(randomWord)) {
+                    if (pangramWords.contains(randomWord) && !newPangrams.contains(randomWord)) {
                         newPangrams.add(randomWord);
                     }
                 }
