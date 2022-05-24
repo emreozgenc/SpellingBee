@@ -8,5 +8,7 @@ public class UINames {
     public static final String START_BUTTON = "Oyunu Başlat";
     public static final String EXIT_BUTTON = "Çıkış Yap";
     public static final String MENU_FIELD_PROMPT = "Kullanılacak harfleri giriniz...";
+    public static final String MENU_TITLE = "Arı Kovanı";
+    public static final String MENU_INFO = "Yedi harf ile kaç kelime bulabilirsin?";
 
 }
