@@ -11,6 +11,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import spellingbee.controllers.MenuController;
 import spellingbee.core.constants.UINames;
 import spellingbee.models.MenuModel;
@@ -31,7 +32,6 @@ public class MenuView implements View {
 
     private void init() {
 
-        // Parent
         VBox vBox = new VBox();
         parent = vBox;
         vBox.setPadding(new Insets(PADDING));
@@ -39,30 +39,43 @@ public class MenuView implements View {
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(Background.fill(BACKGROUND_COLOR));
 
-        // Text Field
-        TextField lettersTextField = new TextField();
-        lettersTextField.setPromptText("Oluşturmak için harfleri gir...");
-        lettersTextField.getStyleClass().addAll("txtfield");
+        VBox titleBox = new VBox(10);
+        titleBox.setPadding(new Insets(20));
+        titleBox.setAlignment(Pos.CENTER);
 
-        // HBox
+        Text title = new Text(UINames.MENU_TITLE);
+        title.getStyleClass().addAll("title");
+
+        Text info = new Text(UINames.MENU_INFO);
+        info.getStyleClass().addAll("info");
+
+        TextField lettersTextField = new TextField();
+        lettersTextField.setPromptText(UINames.MENU_FIELD_PROMPT);
+        lettersTextField.getStyleClass().addAll("txtfield");
+        lettersTextField.setFocusTraversable(false);
+
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(10, 0, 0, 0));
 
-        // Buttons
         Button startButton = new Button(UINames.START_BUTTON);
         Button exitButton = new Button(UINames.EXIT_BUTTON);
         startButton.getStyleClass().addAll("btn", "btn-black");
         exitButton.getStyleClass().addAll("btn", "btn-yellow");
 
-        // Add components to parent
+        titleBox.getChildren().addAll(
+                title,
+                info
+        );
+
         hBox.getChildren().addAll(
                 startButton,
                 exitButton
         );
 
         vBox.getChildren().addAll(
+                titleBox,
                 lettersTextField,
                 hBox
         );
