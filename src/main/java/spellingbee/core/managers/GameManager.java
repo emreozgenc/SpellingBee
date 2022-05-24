@@ -5,9 +5,7 @@ import spellingbee.core.data.DataFilter;
 import spellingbee.core.data.DataReader;
 import spellingbee.core.data.FilteredData;
 import spellingbee.core.data.GameData;
-import spellingbee.core.exceptions.IllegalPointRangeException;
-import spellingbee.core.exceptions.NotEnoughWordsException;
-import spellingbee.core.exceptions.PangramNotFoundException;
+import spellingbee.core.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,9 @@ public class GameManager implements GameService {
         r = new Random();
     }
 
-    public void create(String letters) throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException {
+    public void create(String letters) throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException, IllegalLettersLengthException, NotUniqueLettersException {
+
+        lettersCheck(letters);
 
         FilteredData filteredData = filterWords(letters);
 
@@ -51,6 +51,7 @@ public class GameManager implements GameService {
     }
 
     public void create() throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException {
+
         FilteredData filteredData = filterWords();
 
         firstStatusChecks(filteredData);
@@ -117,6 +118,23 @@ public class GameManager implements GameService {
             }
         }
         return new GameData(selectedWords, newPangrams, letters);
+    }
+
+    private void lettersCheck(String letters) throws IllegalLettersLengthException, NotUniqueLettersException {
+        if (letters.length() != 7) {
+            throw new IllegalLettersLengthException(Messages.ILLEGAL_LETTERS_LENGTH);
+        }
+        checkUniqueLetters(letters);
+    }
+
+    private void checkUniqueLetters(String letters) throws NotUniqueLettersException {
+        for (int i = 0; i < letters.length(); i++) {
+            for (int j = i + 1; j < letters.length(); j++) {
+                if (letters.charAt(i) == letters.charAt(j)) {
+                    throw new NotUniqueLettersException(Messages.NOT_UNIQUE_LETTERS);
+                }
+            }
+        }
     }
 
     private void firstStatusChecks(FilteredData filteredData) throws PangramNotFoundException, NotEnoughWordsException {
