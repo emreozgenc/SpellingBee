@@ -9,10 +9,14 @@ public class BeehiveCell extends StackPane {
     private String cellValue;
     private Polygon polygon;
     private double edgeWidth;
+    private Color backgroundColor;
+    private Color outputColor;
 
-    public BeehiveCell(String cellValue, double edgeWidth) {
+    public BeehiveCell(String cellValue, double edgeWidth, Color backgroundColor, Color outputColor) {
         this.cellValue = cellValue;
         this.edgeWidth = edgeWidth;
+        this.backgroundColor = backgroundColor;
+        this.outputColor = outputColor;
 
         init();
     }
@@ -32,6 +36,18 @@ public class BeehiveCell extends StackPane {
         polygon.setStrokeWidth(5);
         polygon.setFill(Color.WHITE);
         getChildren().addAll(polygon, cellLabel);
+    }
+
+    public Color getOutputColor() {
+        return outputColor;
+    }
+
+    public String getCellValue() {
+        return cellValue;
+    }
+
+    public void setCellValue(String val) {
+        this.cellValue = cellValue;
     }
 
 
