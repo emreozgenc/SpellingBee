@@ -78,7 +78,7 @@ public class MenuView implements View {
         exitButton.getStyleClass().addAll("btn", "btn-yellow");
 
         startButton.setOnMouseClicked(e -> {
-            // controller.start();
+            controller.start();
         });
 
         titleBox.getChildren().addAll(
