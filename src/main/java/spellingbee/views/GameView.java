@@ -52,13 +52,13 @@ public class GameView {
         textField.setPromptText("Yaz");
 
         Button deleteButton = new Button(UINames.DELETE_BUTTON);
-        deleteButton.getStyleClass().addAll("btn", "btn-white");
+        deleteButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
 
         Button refreshButton = new Button(UINames.SHUFFLE_BUTTON);
-        refreshButton.getStyleClass().addAll("btn", "btn-white");
+        refreshButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
 
         Button enterButton = new Button(UINames.ENTER_BUTTON);
-        enterButton.getStyleClass().addAll("btn", "btn-white");
+        enterButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
 
         Text pointText = new Text("Puan: 5");
 
