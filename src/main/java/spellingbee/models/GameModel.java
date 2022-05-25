@@ -10,23 +10,23 @@ public class GameModel {
     private StringProperty wordProperty = new SimpleStringProperty();
     private StringProperty errorProperty = new SimpleStringProperty();
 
-    public void setPointValue(int value) {
-        pointProperty.setValue(value);
+    public void setPointPropertyValue(int val) {
+        pointProperty.setValue(val);
     }
 
-    public int getPointValue() {
+    public int getPointPropertyValue() {
         return pointProperty.getValue();
     }
 
-    public IntegerProperty getIntegerProperty() {
+    public IntegerProperty getPointProperty() {
         return pointProperty;
     }
 
-    public void setWordValue(String word) {
-        wordProperty.setValue(word);
+    public void setWordPropertyValue(String val) {
+        wordProperty.setValue(val);
     }
 
-    public String getWordValue() {
+    public String getWordPropertyValue() {
         return wordProperty.getValue();
     }
 
@@ -34,11 +34,11 @@ public class GameModel {
         return wordProperty;
     }
 
-    public void setErrorValue(String error) {
-        errorProperty.setValue(error);
+    public void setErrorPropertyValue(String val) {
+        errorProperty.setValue(val);
     }
 
-    public String getErrorValue() {
+    public String getErrorPropertyValue() {
         return errorProperty.getValue();
     }
 
