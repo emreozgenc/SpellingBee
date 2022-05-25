@@ -57,7 +57,7 @@ public class GameView {
         Button refreshButton = new Button(UINames.SHUFFLE_BUTTON);
         refreshButton.getStyleClass().addAll("btn", "btn-white");
 
-        Button enterButton = new Button(UINames.START_BUTTON);
+        Button enterButton = new Button(UINames.ENTER_BUTTON);
         enterButton.getStyleClass().addAll("btn", "btn-white");
 
         Text pointText = new Text("Puan: 5");
@@ -69,7 +69,7 @@ public class GameView {
 
         hBoxType.getChildren().add(textField);
 
-        hBoxButtons.getChildren().addAll(refreshButton,deleteButton,enterButton);
+        hBoxButtons.getChildren().addAll(deleteButton,refreshButton,enterButton);
 
         rightVBox.getChildren().addAll(pointText, words);
 
