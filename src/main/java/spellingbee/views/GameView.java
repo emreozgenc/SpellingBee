@@ -12,20 +12,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import spellingbee.controllers.GameController;
+import spellingbee.core.constants.UINames;
 import spellingbee.models.GameModel;
 
 public class GameView {
     private GameModel model;
     private GameController controller;
     private final double EDGE = 100;
-    private Double[] Hexagon ={
-            0.0, 0.0,
-            EDGE, 0.0,
-            1.5*EDGE, 0.5*EDGE*Math.sqrt(3),
-            EDGE, EDGE*Math.sqrt(3),
-            0.0, EDGE*Math.sqrt(3),
-            -0.5*EDGE, 0.5*EDGE*Math.sqrt(3)
-    };
     private Parent parent;
     public  GameView(GameModel model, GameController controller){
         this.model = model;
@@ -55,16 +48,17 @@ public class GameView {
         hBoxButtons.setAlignment(Pos.CENTER);
         hBoxButtons.setSpacing(5);
 
-        Polygon polygon = new Polygon();
-        polygon.setFill(Color.YELLOW);
-
         TextField textField = new TextField();
         textField.setPromptText("Yaz");
-        Button deleteButton = new Button("Delete");
 
-        Button refreshButton = new Button("Refresh");
+        Button deleteButton = new Button(UINames.DELETE_BUTTON);
+        deleteButton.getStyleClass().addAll("btn", "btn-white");
 
-        Button enterButton = new Button("Enter");
+        Button refreshButton = new Button(UINames.SHUFFLE_BUTTON);
+        refreshButton.getStyleClass().addAll("btn", "btn-white");
+
+        Button enterButton = new Button(UINames.START_BUTTON);
+        enterButton.getStyleClass().addAll("btn", "btn-white");
 
         Text pointText = new Text("Puan: 5");
 
@@ -75,11 +69,7 @@ public class GameView {
 
         hBoxType.getChildren().add(textField);
 
-        hBoxHexagons.getChildren().addAll(polygon);
-
-        polygon.getPoints().addAll(Hexagon);
-
-        hBoxButtons.getChildren().addAll(deleteButton,refreshButton,enterButton);
+        hBoxButtons.getChildren().addAll(refreshButton,deleteButton,enterButton);
 
         rightVBox.getChildren().addAll(pointText, words);
 
