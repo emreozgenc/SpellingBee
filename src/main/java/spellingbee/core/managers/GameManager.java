@@ -39,7 +39,6 @@ public class GameManager implements GameService {
         List<String> filteredWords = filteredData.getWords();
         List<String> pangramWords = filteredData.getPangramWords();
 
-        selectedWords.add(selectRandomPangram(pangramWords));
 
         secondStatusChecks(filteredWords, pangramWords);
 
@@ -59,8 +58,6 @@ public class GameManager implements GameService {
         String letters = filteredData.getLetters();
         List<String> filteredWords = filteredData.getWords();
         List<String> pangramWords = filteredData.getPangramWords();
-
-        selectedWords.add(selectRandomPangram(pangramWords));
 
         secondStatusChecks(filteredWords, pangramWords);
 
@@ -100,12 +97,12 @@ public class GameManager implements GameService {
     private GameData prepareTheGame(FilteredData filteredData, List<String> filteredWords, List<String> pangramWords, String letters) {
         List<String> newPangrams = new ArrayList<>();
         int totalPoint = 0;
-        while (!totalPointAcceptable(totalPoint)) {
+        while (!totalPointAcceptable(totalPoint) || newPangrams.size() == 0) {
             int wordCount = 20 + r.nextInt(Math.min(60, filteredData.getWords().size() - 20));
             totalPoint = 0;
             selectedWords.clear();
             newPangrams.clear();
-            newPangrams.add(pangramWords.get(r.nextInt(pangramWords.size())));
+            newPangrams.add(selectRandomPangram(pangramWords));
             while (selectedWords.size() < wordCount) {
                 String randomWord = filteredWords.get(r.nextInt(filteredWords.size()));
                 if (!selectedWords.contains(randomWord)) {
@@ -123,11 +120,10 @@ public class GameManager implements GameService {
     }
 
     private void lettersCheck(String letters) throws IllegalLettersLengthException, NotUniqueLettersException, IllegalLetterException {
-        checkIllegalLetter(letters);
-
         if (letters.length() != 7) {
             throw new IllegalLettersLengthException(Messages.ILLEGAL_LETTERS_LENGTH);
         }
+        checkIllegalLetter(letters);
         checkUniqueLetters(letters);
     }
 
@@ -149,6 +145,7 @@ public class GameManager implements GameService {
             for (int j = 0; j < alphabet.length(); j++) {
                 if (letters.charAt(i) == alphabet.charAt(j)) {
                     contains = true;
+                    break;
                 }
             }
             if (!contains) {
