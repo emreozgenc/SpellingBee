@@ -57,7 +57,12 @@ public class MenuView implements View {
         Text info = new Text(UINames.MENU_INFO);
         info.getStyleClass().addAll("info");
 
+        Text warning = new Text();
+        warning.getStyleClass().addAll("info");
+        warning.textProperty().bind(model.getErrorProperty());
+
         TextField lettersTextField = new TextField();
+        model.getLettersProperty().bind(lettersTextField.textProperty());
         lettersTextField.setPromptText(UINames.MENU_FIELD_PROMPT);
         lettersTextField.getStyleClass().addAll("txtfield");
         lettersTextField.setFocusTraversable(false);
@@ -71,6 +76,10 @@ public class MenuView implements View {
         Button exitButton = new Button(UINames.EXIT_BUTTON);
         startButton.getStyleClass().addAll("btn", "btn-black");
         exitButton.getStyleClass().addAll("btn", "btn-yellow");
+
+        startButton.setOnMouseClicked(e -> {
+            // controller.start();
+        });
 
         titleBox.getChildren().addAll(
                 title,
@@ -86,7 +95,8 @@ public class MenuView implements View {
                 logoView,
                 titleBox,
                 lettersTextField,
-                hBox
+                hBox,
+                warning
         );
 
     }
