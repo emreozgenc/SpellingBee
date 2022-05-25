@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GameManager implements GameService {
+public class GameCreatorManager implements GameCreatorService {
 
     private GameData gameData;
     private DataReader dataReader;
@@ -20,7 +20,7 @@ public class GameManager implements GameService {
     private Random r;
     private final String TURKISH_LETTERS = "abcçdefgğhıijklmnoöprsştuüvyz";
 
-    public GameManager(DataFilter dataFilter, DataReader dataReader) {
+    public GameCreatorManager(DataFilter dataFilter, DataReader dataReader) {
         this.dataFilter = dataFilter;
         this.dataReader = dataReader;
 
@@ -28,7 +28,7 @@ public class GameManager implements GameService {
         r = new Random();
     }
 
-    public void create(String letters) throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException, IllegalLettersLengthException, NotUniqueLettersException, IllegalLetterException {
+    public GameData create(String letters) throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException, IllegalLettersLengthException, NotUniqueLettersException, IllegalLetterException {
 
         lettersCheck(letters);
 
@@ -44,13 +44,13 @@ public class GameManager implements GameService {
 
         if (startTheGame(filteredWords, pangramWords)) {
             gameData = new GameData(filteredWords, pangramWords, letters);
-            return;
+            return gameData;
         }
-        gameData = prepareTheGame(filteredData, filteredWords, pangramWords, letters);
+        return prepareTheGame(filteredData, filteredWords, pangramWords, letters);
 
     }
 
-    public void create() throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException {
+    public GameData create() throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException {
 
         FilteredData filteredData = filterWords();
 
@@ -63,9 +63,9 @@ public class GameManager implements GameService {
 
         if (startTheGame(filteredWords, pangramWords)) {
             gameData = new GameData(filteredWords, pangramWords, letters);
-            return;
+            return gameData;
         }
-        gameData = prepareTheGame(filteredData, filteredWords, pangramWords, letters);
+        return prepareTheGame(filteredData, filteredWords, pangramWords, letters);
     }
 
     private boolean totalPointAcceptable(int totalPoint) {

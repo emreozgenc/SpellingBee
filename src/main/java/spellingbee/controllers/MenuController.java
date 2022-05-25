@@ -2,9 +2,10 @@ package spellingbee.controllers;
 
 import spellingbee.core.data.DataFilter;
 import spellingbee.core.data.DataReader;
+import spellingbee.core.data.GameData;
 import spellingbee.core.exceptions.*;
-import spellingbee.core.managers.GameManager;
-import spellingbee.core.managers.GameService;
+import spellingbee.core.managers.GameCreatorManager;
+import spellingbee.core.managers.GameCreatorService;
 import spellingbee.models.MenuModel;
 
 public class MenuController {
@@ -27,9 +28,9 @@ public class MenuController {
     }
 
     private void handleStart() {
-        GameService manager = new GameManager(dataFilter, dataReader);
+        GameCreatorService creatorService = new GameCreatorManager(dataFilter, dataReader);
         try {
-            manager.create();
+            GameData data = creatorService.create();
             model.setErrorPropertyValue("");
         } catch (PangramNotFoundException | IllegalPointRangeException | NotEnoughWordsException e) {
             handleStart();
@@ -38,9 +39,9 @@ public class MenuController {
     }
 
     private void handleStartWithLetters() {
-        GameService manager = new GameManager(dataFilter, dataReader);
+        GameCreatorService creatorService = new GameCreatorManager(dataFilter, dataReader);
         try {
-            manager.create(model.getLettersPropertyValue());
+            GameData data = creatorService.create(model.getLettersPropertyValue());
             model.setErrorPropertyValue("");
         } catch (PangramNotFoundException | IllegalPointRangeException | NotEnoughWordsException |
                  NotUniqueLettersException | IllegalLettersLengthException | IllegalLetterException e) {
