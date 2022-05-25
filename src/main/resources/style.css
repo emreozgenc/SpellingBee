@@ -55,6 +55,10 @@
     -fx-background-radius: 50;
 }
 
+.btn-game {
+    -fx-padding: 5 10 5 10;
+}
+
 .btn:hover {
     -fx-cursor: hand;
 }
