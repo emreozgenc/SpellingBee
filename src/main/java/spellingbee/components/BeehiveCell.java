@@ -1,9 +1,12 @@
 package spellingbee.components;
 
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
 
 public class BeehiveCell extends StackPane {
     private String cellValue;
@@ -11,6 +14,7 @@ public class BeehiveCell extends StackPane {
     private double edgeWidth;
     private Color backgroundColor;
     private Color outputColor;
+    private Text cellText;
 
     public BeehiveCell(String cellValue, double edgeWidth, Color backgroundColor, Color outputColor) {
         this.cellValue = cellValue;
@@ -31,11 +35,19 @@ public class BeehiveCell extends StackPane {
                 -0.5 * edgeWidth, 0.5 * edgeWidth * Math.sqrt(3)
         });
 
-        Label cellLabel = new Label(cellValue);
-        polygon.setStroke(Color.BLACK);
-        polygon.setStrokeWidth(5);
-        polygon.setFill(Color.WHITE);
-        getChildren().addAll(polygon, cellLabel);
+        setPickOnBounds(false);
+
+        cellText = new Text(cellValue);
+        cellText.setPickOnBounds(false);
+        cellText.setStyle(
+                "-fx-font-size: 18;" +
+                        "-fx-font-family:Arial;" +
+                        "-fx-font-weight:700");
+        polygon.setStroke(Color.WHITE);
+        polygon.setStrokeWidth(7.5);
+        polygon.setFill(backgroundColor);
+        polygon.setCursor(Cursor.HAND);
+        getChildren().addAll(polygon, cellText);
     }
 
     public Color getOutputColor() {
@@ -46,8 +58,13 @@ public class BeehiveCell extends StackPane {
         return cellValue;
     }
 
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
     public void setCellValue(String val) {
-        this.cellValue = cellValue;
+        this.cellValue = val;
+        cellText.setText(cellValue);
     }
 
 
