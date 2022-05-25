@@ -18,6 +18,8 @@ import spellingbee.models.MenuModel;
 
 public class MenuView implements View {
     private final Color BACKGROUND_COLOR = Color.rgb(255, 209, 0);
+    private final String LOGO_PATH = "logo.png";
+    private final int LOGO_SIZE = 140;
     private final double PADDING = 50;
     private MenuModel model;
     private MenuController controller;
@@ -38,6 +40,12 @@ public class MenuView implements View {
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(Background.fill(BACKGROUND_COLOR));
+
+        Image image = new Image(LOGO_PATH);
+        ImageView logoView = new ImageView(image);
+        double aspectRatio = image.getWidth() / image.getHeight();
+        logoView.setFitWidth(LOGO_SIZE);
+        logoView.setFitHeight(LOGO_SIZE * aspectRatio);
 
         VBox titleBox = new VBox(10);
         titleBox.setPadding(new Insets(20));
@@ -75,6 +83,7 @@ public class MenuView implements View {
         );
 
         vBox.getChildren().addAll(
+                logoView,
                 titleBox,
                 lettersTextField,
                 hBox
