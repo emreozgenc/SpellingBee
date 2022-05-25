@@ -18,6 +18,7 @@ public class GameManager implements GameService {
     private DataFilter dataFilter;
     private List<String> selectedWords;
     private Random r;
+    private final String TURKISH_LETTERS = "abcçdefgğhıijklmnoöprsştuüvyz";
 
     public GameManager(DataFilter dataFilter, DataReader dataReader) {
         this.dataFilter = dataFilter;
@@ -27,7 +28,7 @@ public class GameManager implements GameService {
         r = new Random();
     }
 
-    public void create(String letters) throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException, IllegalLettersLengthException, NotUniqueLettersException {
+    public void create(String letters) throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException, IllegalLettersLengthException, NotUniqueLettersException, IllegalLetterException {
 
         lettersCheck(letters);
 
@@ -121,7 +122,9 @@ public class GameManager implements GameService {
         return new GameData(selectedWords, newPangrams, letters);
     }
 
-    private void lettersCheck(String letters) throws IllegalLettersLengthException, NotUniqueLettersException {
+    private void lettersCheck(String letters) throws IllegalLettersLengthException, NotUniqueLettersException, IllegalLetterException {
+        checkIllegalLetter(letters);
+
         if (letters.length() != 7) {
             throw new IllegalLettersLengthException(Messages.ILLEGAL_LETTERS_LENGTH);
         }
@@ -134,6 +137,22 @@ public class GameManager implements GameService {
                 if (letters.charAt(i) == letters.charAt(j)) {
                     throw new NotUniqueLettersException(Messages.NOT_UNIQUE_LETTERS);
                 }
+            }
+        }
+    }
+
+    private void checkIllegalLetter(String letters) throws IllegalLetterException {
+        boolean contains;
+        String alphabet = TURKISH_LETTERS;
+        for (int i = 0; i < letters.length(); i++) {
+            contains = false;
+            for (int j = 0; j < alphabet.length(); j++) {
+                if (letters.charAt(i) == alphabet.charAt(j)) {
+                    contains = true;
+                }
+            }
+            if (!contains) {
+                throw new IllegalLetterException(Messages.ILLEGAL_LETTER);
             }
         }
     }
