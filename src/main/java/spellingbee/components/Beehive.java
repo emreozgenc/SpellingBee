@@ -47,6 +47,9 @@ public class Beehive extends Pane {
 
     public void shuffle() {
         Random random = new Random();
+        for(int i=0;i<cells.length;i++) {
+            if(i != 3) cells[i].playShuffleAnimation();
+        }
         for (int i = 0; i < cells.length; i++) {
             int randomIndex = random.nextInt(cells.length);
             if (randomIndex == cells.length / 2 || i == cells.length / 2) continue;

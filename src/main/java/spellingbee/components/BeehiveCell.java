@@ -1,5 +1,8 @@
 package spellingbee.components;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -7,6 +10,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+
+import java.util.List;
 
 public class BeehiveCell extends StackPane {
     private String cellValue;
@@ -15,6 +21,14 @@ public class BeehiveCell extends StackPane {
     private Color backgroundColor;
     private Color outputColor;
     private Text cellText;
+    private ScaleTransition shrinkTransition;
+    private ScaleTransition growTransition;
+
+    private FadeTransition fadeInTransition;
+    private FadeTransition fadeOutTransition;
+    private SequentialTransition clickAnimation;
+    private SequentialTransition shuffleAnimation;
+    private boolean clickAnimationFlag = true;
 
     public BeehiveCell(String cellValue, double edgeWidth, Color backgroundColor, Color outputColor) {
         this.cellValue = cellValue;
@@ -23,6 +37,7 @@ public class BeehiveCell extends StackPane {
         this.outputColor = outputColor;
 
         init();
+        initAnimations();
     }
 
     private void init() {
@@ -48,6 +63,38 @@ public class BeehiveCell extends StackPane {
         polygon.setFill(backgroundColor);
         polygon.setCursor(Cursor.HAND);
         getChildren().addAll(polygon, cellText);
+    }
+
+    private void initAnimations() {
+        fadeInTransition = new FadeTransition(Duration.millis(300), cellText);
+        fadeInTransition.setToValue(1);
+
+        fadeOutTransition = new FadeTransition(Duration.millis(10), cellText);
+        fadeOutTransition.setToValue(0);
+
+        shuffleAnimation = new SequentialTransition(fadeOutTransition, fadeInTransition);
+
+        shrinkTransition = new ScaleTransition(Duration.millis(100), polygon);
+        shrinkTransition.setToX(0.8);
+        shrinkTransition.setToY(0.8);
+
+        growTransition = new ScaleTransition(Duration.millis(100), polygon);
+        growTransition.setToX(1);
+        growTransition.setToY(1);
+
+        clickAnimation = new SequentialTransition(shrinkTransition, growTransition);
+        clickAnimation.setOnFinished(e -> clickAnimationFlag = true);
+    }
+
+    public void playClickAnimation() {
+        if (clickAnimationFlag) {
+            clickAnimationFlag = false;
+            clickAnimation.play();
+        }
+    }
+
+    public void playShuffleAnimation() {
+        shuffleAnimation.play();
     }
 
     public Color getOutputColor() {
