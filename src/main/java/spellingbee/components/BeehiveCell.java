@@ -114,5 +114,9 @@ public class BeehiveCell extends StackPane {
         cellText.setText(cellValue);
     }
 
+    public Polygon getPolygon() {
+        return polygon;
+    }
+
 
 }
