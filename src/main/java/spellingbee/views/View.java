@@ -2,6 +2,9 @@ package spellingbee.views;
 
 import javafx.scene.Parent;
 
-public interface View {
-    Parent getAsParent();
+public abstract class View {
+    protected Parent parent;
+    public Parent getAsParent() {
+        return parent;
+    }
 }

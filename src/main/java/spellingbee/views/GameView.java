@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -25,11 +24,10 @@ import spellingbee.core.constants.Colors;
 import spellingbee.core.constants.UINames;
 import spellingbee.models.GameModel;
 
-public class GameView {
+public class GameView extends View {
     private GameModel model;
     private GameController controller;
     private Beehive beehive;
-    private Parent parent;
     private HBox inputBox;
     private String letters;
     private StringBuilder input;
@@ -203,10 +201,5 @@ public class GameView {
         children.remove(size - 1);
         input.deleteCharAt(input.length() - 1);
     }
-
-    public Parent getAsParent() {
-        return parent;
-    }
-
 
 }

@@ -2,7 +2,6 @@ package spellingbee.views;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -16,14 +15,13 @@ import spellingbee.controllers.MenuController;
 import spellingbee.core.constants.UINames;
 import spellingbee.models.MenuModel;
 
-public class MenuView implements View {
+public class MenuView extends View {
     private final Color BACKGROUND_COLOR = Color.rgb(255, 209, 0);
     private final String LOGO_PATH = "logo.png";
     private final int LOGO_SIZE = 140;
     private final double PADDING = 50;
     private MenuModel model;
     private MenuController controller;
-    private Parent parent;
 
     public MenuView(MenuModel model, MenuController controller) {
         this.model = model;
@@ -99,10 +97,5 @@ public class MenuView implements View {
                 warning
         );
 
-    }
-
-    @Override
-    public Parent getAsParent() {
-        return parent;
     }
 }
