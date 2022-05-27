@@ -30,9 +30,10 @@ public class GameView {
     private String letters = "kayseri";
     private StringBuilder input;
 
-    public GameView(GameModel model, GameController controller) {
+    public GameView(GameModel model, GameController controller, String letters) {
         this.model = model;
         this.controller = controller;
+        this.letters = letters;
         input = new StringBuilder();
         initBeeHive();
         init();
