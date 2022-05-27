@@ -9,6 +9,8 @@ public class GameModel {
     private IntegerProperty pointProperty = new SimpleIntegerProperty();
     private StringProperty wordProperty = new SimpleStringProperty();
     private StringProperty errorProperty = new SimpleStringProperty();
+    private StringProperty resultWordProperty = new SimpleStringProperty();
+    private IntegerProperty currentPointProperty = new SimpleIntegerProperty();
 
     public void setPointPropertyValue(int val) {
         pointProperty.setValue(val);
@@ -44,5 +46,29 @@ public class GameModel {
 
     public StringProperty getErrorProperty() {
         return errorProperty;
+    }
+
+    public void setResultWordPropertyValue(String val) {
+        resultWordProperty.setValue(val);
+    }
+
+    public String getResultWordPropertyValue() {
+        return resultWordProperty.getValue();
+    }
+
+    public StringProperty getResultWordProperty() {
+        return resultWordProperty;
+    }
+
+    public void setCurrentPointPropertyValue(int val) {
+        currentPointProperty.setValue(val);
+    }
+
+    public int getCurrentPointPropertyValue() {
+        return currentPointProperty.getValue();
+    }
+
+    public IntegerProperty getCurrentPointProperty() {
+        return currentPointProperty;
     }
 }
