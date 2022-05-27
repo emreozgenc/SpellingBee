@@ -2,6 +2,7 @@ package spellingbee.components;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 
 import java.util.Random;
 
@@ -58,5 +59,9 @@ public class Beehive extends Pane {
             cells[i].setCellValue(cells[randomIndex].getCellValue());
             cells[randomIndex].setCellValue(temp);
         }
+    }
+
+    public BeehiveCell[] getCells() {
+        return cells;
     }
 }
