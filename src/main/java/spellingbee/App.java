@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import spellingbee.controllers.GameController;
 import spellingbee.controllers.MenuController;
+import spellingbee.core.data.DataReader;
 import spellingbee.core.data.TxtReader;
 import spellingbee.core.data.WordFilter;
 import spellingbee.models.GameModel;
@@ -37,11 +38,13 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         this.stage = stage;
-        Label label = new Label("To do");
-        FlowPane parent = new FlowPane(label);
-        parent.setAlignment(Pos.CENTER);
+        MenuModel model = new MenuModel();
+        MenuController controller = new MenuController(model, new TxtReader(), new WordFilter());
+        MenuView view = new MenuView(model, controller);
+        Scene scene = new Scene(view.getAsParent());
+        scene.getStylesheets().addAll("style.css");
         stage.setTitle("Spelling Bee v0.0.1");
-        stage.setScene(new Scene(parent, 300, 300));
+        stage.setScene(scene);
         stage.show();
     }
 
