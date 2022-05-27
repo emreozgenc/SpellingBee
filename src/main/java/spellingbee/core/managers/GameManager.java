@@ -7,6 +7,7 @@ import spellingbee.core.exceptions.DictionaryDoesNotContainWordException;
 import spellingbee.core.exceptions.IllegalWordLengthException;
 import spellingbee.core.exceptions.WordContainsIllegalLetterException;
 import spellingbee.core.exceptions.WordDoesNotContainCenterLetterException;
+import spellingbee.core.results.PointResult;
 
 public class GameManager implements GameService {
 
@@ -19,7 +20,7 @@ public class GameManager implements GameService {
     }
 
     @Override
-    public int check(String inputWord) throws DictionaryDoesNotContainWordException, IllegalWordLengthException, WordContainsIllegalLetterException, WordDoesNotContainCenterLetterException {
+    public PointResult check(String inputWord) throws DictionaryDoesNotContainWordException, IllegalWordLengthException, WordContainsIllegalLetterException, WordDoesNotContainCenterLetterException {
 
         checkLength(inputWord);
         checkCenterLetter(inputWord);
@@ -30,7 +31,7 @@ public class GameManager implements GameService {
 
         currentPoint += point;
 
-        return point;
+        return new PointResult(inputWord, point, currentPoint);
     }
 
     public int getCurrentPoint() {
