@@ -3,35 +3,44 @@ package spellingbee.core.managers;
 import spellingbee.core.constants.Messages;
 import spellingbee.core.constants.UINames;
 import spellingbee.core.data.GameData;
-import spellingbee.core.exceptions.DictionaryDoesNotContainWordException;
-import spellingbee.core.exceptions.IllegalWordLengthException;
-import spellingbee.core.exceptions.WordContainsIllegalLetterException;
-import spellingbee.core.exceptions.WordDoesNotContainCenterLetterException;
+import spellingbee.core.exceptions.*;
 import spellingbee.core.results.PointResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameManager implements GameService {
 
     private final int MIN_WORD_LENGTH = 4;
     private GameData data;
     private int currentPoint = 0;
+    private List<String> foundWords;
 
     public GameManager(GameData data) {
         this.data = data;
+        foundWords = new ArrayList<>();
     }
 
     @Override
-    public PointResult check(String inputWord) throws DictionaryDoesNotContainWordException, IllegalWordLengthException, WordContainsIllegalLetterException, WordDoesNotContainCenterLetterException {
+    public PointResult check(String inputWord) throws DictionaryDoesNotContainWordException, IllegalWordLengthException, WordContainsIllegalLetterException, WordDoesNotContainCenterLetterException, WordAlreadyFoundException {
 
         checkLength(inputWord);
         checkCenterLetter(inputWord);
         checkIllegalLetter(inputWord);
         checkDictionary(inputWord);
-
+        checkFound(inputWord);
         int point = calculatePoint(inputWord);
 
         currentPoint += point;
+        foundWords.add(inputWord);
 
         return new PointResult(inputWord, point, currentPoint);
+    }
+
+    private void checkFound(String inputWord) throws WordAlreadyFoundException {
+        if (foundWords.contains(inputWord)){
+             throw new WordAlreadyFoundException(Messages.WORD_ALREADY_FOUND);
+        }
     }
 
     public int getCurrentPoint() {
