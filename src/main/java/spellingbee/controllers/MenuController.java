@@ -1,12 +1,18 @@
 package spellingbee.controllers;
 
+import javafx.scene.Scene;
+import spellingbee.App;
 import spellingbee.core.data.DataFilter;
 import spellingbee.core.data.DataReader;
 import spellingbee.core.data.GameData;
 import spellingbee.core.exceptions.*;
 import spellingbee.core.managers.GameCreatorManager;
 import spellingbee.core.managers.GameCreatorService;
+import spellingbee.core.managers.GameManager;
+import spellingbee.core.managers.GameService;
+import spellingbee.models.GameModel;
 import spellingbee.models.MenuModel;
+import spellingbee.views.GameView;
 
 public class MenuController {
     private MenuModel model;
@@ -32,6 +38,13 @@ public class MenuController {
         try {
             GameData data = creatorService.create();
             model.setErrorPropertyValue("");
+            GameService gameService = new GameManager(data);
+            GameModel gameModel = new GameModel();
+            GameController gameController = new GameController(gameModel,gameService);
+            GameView gameView = new GameView(gameModel,gameController,data.getLetters());
+            Scene scene = new Scene(gameView.getAsParent());
+            scene.getStylesheets().addAll("style.css");
+            App.getInstance().setScene(scene);
         } catch (PangramNotFoundException | IllegalPointRangeException | NotEnoughWordsException e) {
             handleStart();
         }
@@ -43,6 +56,13 @@ public class MenuController {
         try {
             GameData data = creatorService.create(model.getLettersPropertyValue());
             model.setErrorPropertyValue("");
+            GameService gameService = new GameManager(data);
+            GameModel gameModel = new GameModel();
+            GameController gameController = new GameController(gameModel,gameService);
+            GameView gameView = new GameView(gameModel,gameController,data.getLetters());
+            Scene scene = new Scene(gameView.getAsParent());
+            scene.getStylesheets().addAll("style.css");
+            App.getInstance().setScene(scene);
         } catch (PangramNotFoundException | IllegalPointRangeException | NotEnoughWordsException |
                  NotUniqueLettersException | IllegalLettersLengthException | IllegalLetterException e) {
             model.setErrorPropertyValue(e.getMessage());
