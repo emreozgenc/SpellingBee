@@ -31,7 +31,7 @@ public class GameManager implements GameService {
 
         currentPoint += point;
 
-        return new PointResult(inputWord, point);
+        return new PointResult(inputWord, point, currentPoint);
     }
 
     public int getCurrentPoint() {
