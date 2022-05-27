@@ -1,5 +1,7 @@
 package spellingbee.views;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
@@ -27,7 +31,7 @@ public class GameView {
     private Beehive beehive;
     private Parent parent;
     private HBox inputBox;
-    private String letters = "kayseri";
+    private String letters;
     private StringBuilder input;
 
     public GameView(GameModel model, GameController controller, String letters) {
@@ -101,9 +105,7 @@ public class GameView {
 
         Text pointer = new Text("|");
         pointer.setFill(Colors.CELL_CENTER_OUTPUT);
-        pointer.setStyle("-fx-font-size: 25;" +
-                "-fx-font-family: Arial;" +
-                "-fx-font-weight: 700;");
+        pointer.getStyleClass().addAll("pointer");
 
         innerTopHBox.getChildren().addAll(inputBox, pointer);
         innerTopHBox.setAlignment(Pos.TOP_CENTER);
@@ -122,29 +124,45 @@ public class GameView {
             input.delete(0, input.length());
         });
 
-        Button refreshButton = new Button(UINames.SHUFFLE_BUTTON);
+        Button refreshButton = new Button();
         refreshButton.setOnAction(e -> beehive.shuffle());
         refreshButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
         refreshButton.setFocusTraversable(false);
+        ImageView imageView = new ImageView(new Image("shuffle.png"));
+        imageView.setFitWidth(15);
+        imageView.setFitHeight(15);
+        refreshButton.setGraphic(imageView);
 
         Button enterButton = new Button(UINames.ENTER_BUTTON);
         enterButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
         enterButton.setOnAction(e -> {
-            System.out.println(input.toString());
+            model.setWordPropertyValue(input.toString().toLowerCase());
+            controller.check();
             input.delete(0, input.length());
             inputBox.getChildren().clear();
         });
 
-        Text pointText = new Text("Puan: 5");
+        Text pointText = new Text(UINames.POINT_LABEL + 0);
+        pointText.getStyleClass().addAll("point-text");
+        model.getCurrentPointProperty().addListener((o, n, t) -> {
+            pointText.setText(UINames.POINT_LABEL + t);
+        });
 
-        ListView<String> words = new ListView<>();
+        ListView<String> wordList = new ListView<>();
+        wordList.getStyleClass().addAll("word-list");
+        wordList.setFocusTraversable(false);
+        model.getResultWordProperty().addListener((o, n, t) -> {
+            String val = String.format("%s (%d puan)", t, model.getPointPropertyValue());
+            wordList.getItems().add(val);
+            wordList.scrollTo(val);
+        });
 
 
         hBoxPoint.getChildren().add(pointText);
 
         hBoxButtons.getChildren().addAll(deleteButton, refreshButton, enterButton);
 
-        rightVBox.getChildren().addAll(pointText, words);
+        rightVBox.getChildren().addAll(pointText, wordList);
 
         leftVBox.getChildren().addAll(innerTopHBox, beehive, hBoxButtons);
 
@@ -153,7 +171,7 @@ public class GameView {
     }
 
     private void initBeeHive() {
-        beehive = new Beehive("kayseri".toUpperCase());
+        beehive = new Beehive(letters.toUpperCase());
     }
 
     private void addLetterToInputBox(String letter, Color color) {
@@ -165,9 +183,7 @@ public class GameView {
 
         Text text = new Text(letter);
         text.setFill(color);
-        text.setStyle("-fx-font-family: Arial;" +
-                "-fx-font-weight:700;" +
-                "-fx-font-size:20;");
+        text.getStyleClass().addAll("inputbox-text");
 
         children.add(text);
         input.append(letter);
