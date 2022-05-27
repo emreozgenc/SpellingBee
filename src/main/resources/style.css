@@ -79,3 +79,25 @@
     -fx-background-color: black, white;
     -fx-background-insets: -1 -1 -1 -1, 0 0 0 0;
 }
+
+.word-list {
+    -fx-font-famil: "Ubuntu";
+    -fx-font-size: 14;
+}
+
+.point-text {
+    -fx-font-famil: "Ubuntu";
+    -fx-font-size: 18;
+}
+
+.pointer {
+    -fx-font-size: 25;
+    -fx-font-family: Arial;
+    -fx-font-weight: 700;
+}
+
+.inputbox-text {
+    -fx-font-size: 20;
+    -fx-font-family: Arial;
+    -fx-font-weight: 700;
+}
