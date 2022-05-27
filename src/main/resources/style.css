@@ -81,12 +81,12 @@
 }
 
 .word-list {
-    -fx-font-famil: "Ubuntu";
+    -fx-font-family: "Ubuntu";
     -fx-font-size: 14;
 }
 
 .point-text {
-    -fx-font-famil: "Ubuntu";
+    -fx-font-family: "Ubuntu";
     -fx-font-size: 18;
 }
 
