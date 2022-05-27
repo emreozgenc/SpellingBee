@@ -11,4 +11,5 @@ public class Messages {
     public static final String ILLEGAL_WORD_LENGTH = "Kelime 4 karakterden kısa";
     public static final String WORD_CONTAINS_ILLEGAL_LETTER = "Kelime uygunsuz harf içeriyor";
     public static final String ILLEGAL_LETTER = "Harfler Türkçe karakter olmalıdır";
+    public static final String WORD_ALREADY_FOUND = "Kelime zaten bulundu";
 }
