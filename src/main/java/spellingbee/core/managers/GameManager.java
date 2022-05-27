@@ -51,7 +51,7 @@ public class GameManager implements GameService {
         if (data.getPangramWords().contains(inputWord))
             return inputWord.length() + MIN_WORD_LENGTH;
 
-        return inputWord.length() - MIN_WORD_LENGTH - 1;
+        return inputWord.length() - MIN_WORD_LENGTH + 1;
     }
 
     private void checkIllegalLetter(String inputWord) throws WordContainsIllegalLetterException {
