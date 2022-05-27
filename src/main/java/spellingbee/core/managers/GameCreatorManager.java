@@ -98,11 +98,10 @@ public class GameCreatorManager implements GameCreatorService {
         List<String> newPangrams = new ArrayList<>();
         int totalPoint = 0;
         while (!totalPointAcceptable(totalPoint) || newPangrams.size() == 0) {
-            int wordCount = 20 + r.nextInt(Math.min(60, filteredData.getWords().size() - 20));
+            int wordCount = 20 + r.nextInt(Math.min(61, filteredData.getWords().size() - 20));
             totalPoint = 0;
             selectedWords.clear();
             newPangrams.clear();
-            newPangrams.add(selectRandomPangram(pangramWords));
             while (selectedWords.size() < wordCount) {
                 String randomWord = filteredWords.get(r.nextInt(filteredWords.size()));
                 if (!selectedWords.contains(randomWord)) {
