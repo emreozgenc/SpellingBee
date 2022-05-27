@@ -1,9 +1,6 @@
 package spellingbee.controllers;
 
-import spellingbee.core.exceptions.DictionaryDoesNotContainWordException;
-import spellingbee.core.exceptions.IllegalWordLengthException;
-import spellingbee.core.exceptions.WordContainsIllegalLetterException;
-import spellingbee.core.exceptions.WordDoesNotContainCenterLetterException;
+import spellingbee.core.exceptions.*;
 import spellingbee.core.managers.GameService;
 import spellingbee.core.results.PointResult;
 import spellingbee.models.GameModel;
@@ -23,8 +20,10 @@ public class GameController {
             model.setPointPropertyValue(pointResult.getPoint());
             model.setResultWordPropertyValue(pointResult.getWord());
             model.setCurrentPointPropertyValue(pointResult.getCurrentPoint());
+            System.out.println(pointResult.getCurrentPoint() + " " + pointResult.getWord() + " " + pointResult.getPoint());
         } catch (DictionaryDoesNotContainWordException | IllegalWordLengthException |
-                 WordContainsIllegalLetterException | WordDoesNotContainCenterLetterException e) {
+                 WordContainsIllegalLetterException | WordDoesNotContainCenterLetterException |
+                 WordAlreadyFoundException e) {
             model.setErrorPropertyValue(e.getMessage());
         }
     }
