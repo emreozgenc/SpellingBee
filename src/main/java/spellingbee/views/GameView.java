@@ -1,5 +1,6 @@
 package spellingbee.views;
 
+import javafx.animation.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -17,6 +18,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 import spellingbee.components.Beehive;
 import spellingbee.components.BeehiveCell;
 import spellingbee.controllers.GameController;
@@ -27,19 +30,158 @@ import spellingbee.models.GameModel;
 public class GameView extends View {
     private GameModel model;
     private GameController controller;
-    private Beehive beehive;
-    private HBox inputBox;
     private String letters;
     private StringBuilder input;
+
+    /* Components */
+    private final HBox parentHBox;
+    private final VBox leftVBox;
+    private final VBox rightVBox;
+    private final HBox buttonsHBox;
+    private final HBox leftInnerTopHBox;
+    private final HBox inputBox;
+    private final Beehive beehive;
+    private final ListView<String> foundWordsList;
+    private final Text pointerText;
+    private final Text statusText;
+    private final Text pointText;
+    private final Button enterButton;
+    private final Button shuffleButton;
+    private final ImageView shuffleButtonGraphic;
+    private final Button deleteButton;
+
+    private SequentialTransition blinkAnimation;
+    private SequentialTransition shakeAnimation;
+
 
     public GameView(GameModel model, GameController controller, String letters) {
         this.model = model;
         this.controller = controller;
         this.letters = letters;
         input = new StringBuilder();
-        initBeeHive();
-        init();
+
+        parentHBox = new HBox();
+        parent = parentHBox;
+
+        leftVBox = new VBox();
+        rightVBox = new VBox();
+        buttonsHBox = new HBox();
+        leftInnerTopHBox = new HBox();
+        inputBox = new HBox();
+        foundWordsList = new ListView<>();
+        pointerText = new Text();
+        statusText = new Text();
+        pointText = new Text();
+        enterButton = new Button();
+        shuffleButton = new Button();
+        deleteButton = new Button();
+        shuffleButtonGraphic = new ImageView();
+
+        beehive = new Beehive(this.letters.toUpperCase());
+
+        editComponents();
         assignEvents();
+        initAnimations();
+    }
+
+    private void initAnimations() {
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(500), pointerText);
+        fadeOut.setToValue(0);
+
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(500), pointerText);
+        fadeIn.setToValue(1);
+
+        blinkAnimation = new SequentialTransition(fadeOut, fadeIn);
+        blinkAnimation.setCycleCount(Animation.INDEFINITE);
+        blinkAnimation.play();
+
+        TranslateTransition moveRight = new TranslateTransition(Duration.millis(150), statusText);
+        moveRight.setToX(20);
+
+        TranslateTransition moveLeft = new TranslateTransition(Duration.millis(150), statusText);
+        moveLeft.setToX(-20);
+
+        TranslateTransition moveCenter = new TranslateTransition(Duration.millis(150), statusText);
+        moveCenter.setToX(0);
+
+        shakeAnimation = new SequentialTransition(moveRight, moveLeft, moveCenter);
+    }
+
+    private void editComponents() {
+        parentHBox.setPadding(new Insets(30));
+        parentHBox.setSpacing(30);
+        parentHBox.setAlignment(Pos.CENTER);
+        parentHBox.setBackground(Background.fill(Color.WHITE));
+
+        leftVBox.setPadding(new Insets(10));
+        leftVBox.setSpacing(20);
+        leftVBox.setAlignment(Pos.TOP_CENTER);
+
+        leftInnerTopHBox.setAlignment(Pos.CENTER);
+
+        inputBox.setAlignment(Pos.CENTER);
+
+        pointerText.getStyleClass().add("pointer");
+        pointerText.setText("|");
+        pointerText.setFill(Colors.CELL_CENTER_OUTPUT);
+
+        leftInnerTopHBox.getChildren().addAll(
+                inputBox,
+                pointerText
+        );
+
+        buttonsHBox.setSpacing(5);
+        buttonsHBox.setAlignment(Pos.CENTER);
+
+        enterButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
+        enterButton.setText(UINames.ENTER_BUTTON);
+        enterButton.setFocusTraversable(true);
+        shuffleButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
+        shuffleButton.setFocusTraversable(false);
+        deleteButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
+        deleteButton.setFocusTraversable(false);
+        deleteButton.setText(UINames.DELETE_BUTTON);
+
+        shuffleButtonGraphic.setImage(new Image("shuffle.png"));
+        shuffleButtonGraphic.setFitWidth(15);
+        shuffleButtonGraphic.setFitHeight(15);
+        shuffleButton.setGraphic(shuffleButtonGraphic);
+
+        buttonsHBox.getChildren().addAll(
+                deleteButton,
+                shuffleButton,
+                enterButton
+        );
+
+        statusText.getStyleClass().add("status-text");
+
+        leftVBox.getChildren().addAll(
+                leftInnerTopHBox,
+                beehive,
+                buttonsHBox,
+                statusText
+        );
+
+        rightVBox.setPadding(new Insets(10));
+        rightVBox.setSpacing(10);
+
+        pointText.getStyleClass().add("point-text");
+        pointText.setText(UINames.POINT_LABEL + 0);
+
+        foundWordsList.setFocusTraversable(false);
+        foundWordsList.getStyleClass().add("word-list");
+
+        rightVBox.getChildren().addAll(
+                pointText,
+                foundWordsList
+        );
+
+        parentHBox.getChildren().addAll(
+                leftVBox,
+                rightVBox
+        );
+
+
     }
 
     private void assignEvents() {
@@ -65,6 +207,13 @@ public class GameView extends View {
         parent.setOnKeyTyped(e -> {
             String ch = e.getCharacter().toLowerCase();
 
+            for (BeehiveCell cell : cells) {
+                if (cell.getCellValue().equalsIgnoreCase(ch)) {
+                    cell.playClickAnimation();
+                    break;
+                }
+            }
+
             if (centerCharacter.equalsIgnoreCase(ch)) {
                 addLetterToInputBox(ch, Colors.CELL_CENTER_OUTPUT);
                 return;
@@ -78,98 +227,36 @@ public class GameView extends View {
             addLetterToInputBox(ch, Colors.WRONG_OUTPUT);
         });
 
+        statusText.textProperty().bind(model.getStatusProperty());
 
-    }
-
-    private void init() {
-        HBox hBox = new HBox();
-        parent = hBox;
-        hBox.setSpacing(30);
-        hBox.setPadding(new Insets(30));
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setBackground(Background.fill(Color.WHITE));
-
-        VBox rightVBox = new VBox();
-        rightVBox.setSpacing(10);
-
-        VBox leftVBox = new VBox();
-
-        HBox hBoxPoint = new HBox();
-
-        HBox innerTopHBox = new HBox();
-
-        inputBox = new HBox();
-        inputBox.setAlignment(Pos.CENTER);
-
-        Text pointer = new Text("|");
-        pointer.setFill(Colors.CELL_CENTER_OUTPUT);
-        pointer.getStyleClass().addAll("pointer");
-
-        innerTopHBox.getChildren().addAll(inputBox, pointer);
-        innerTopHBox.setAlignment(Pos.TOP_CENTER);
-        innerTopHBox.setPadding(new Insets(0, 0, 10, 0));
-
-        HBox hBoxButtons = new HBox();
-        hBoxButtons.setPadding(new Insets(20, 10, 20, 10));
-        hBoxButtons.setAlignment(Pos.CENTER);
-        hBoxButtons.setSpacing(5);
-
-        Button deleteButton = new Button(UINames.DELETE_BUTTON);
-        deleteButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
-        deleteButton.setFocusTraversable(false);
-        deleteButton.setOnAction(e -> {
-            inputBox.getChildren().clear();
-            input.delete(0, input.length());
+        model.getStatusProperty().addListener((o, n, t) -> {
+            shakeAnimation.play();
         });
 
-        Button refreshButton = new Button();
-        refreshButton.setOnAction(e -> beehive.shuffle());
-        refreshButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
-        refreshButton.setFocusTraversable(false);
-        ImageView imageView = new ImageView(new Image("shuffle.png"));
-        imageView.setFitWidth(15);
-        imageView.setFitHeight(15);
-        refreshButton.setGraphic(imageView);
+        model.getResultWordProperty().addListener((o, n, t) -> {
+            String str = String.format("%s (%d puan)", model.getResultWordPropertyValue(), model.getPointPropertyValue());
+            foundWordsList.getItems().add(str);
+            foundWordsList.scrollTo(str);
+            pointText.setText(UINames.POINT_LABEL + model.getCurrentPointPropertyValue());
+        });
 
-        Button enterButton = new Button(UINames.ENTER_BUTTON);
-        enterButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
+        shuffleButton.setOnAction(e -> {
+            beehive.shuffle();
+        });
+
         enterButton.setOnAction(e -> {
             model.setWordPropertyValue(input.toString().toLowerCase());
             controller.check();
-            input.delete(0, input.length());
             inputBox.getChildren().clear();
+            input.delete(0, input.length());
         });
 
-        Text pointText = new Text(UINames.POINT_LABEL + 0);
-        pointText.getStyleClass().addAll("point-text");
-        model.getCurrentPointProperty().addListener((o, n, t) -> {
-            pointText.setText(UINames.POINT_LABEL + t);
+        deleteButton.setOnAction(e -> {
+            if (input.length() > 0 && inputBox.getChildren().size() > 0) {
+                inputBox.getChildren().remove(inputBox.getChildren().size() - 1);
+                input.delete(input.length() - 1, input.length());
+            }
         });
-
-        ListView<String> wordList = new ListView<>();
-        wordList.getStyleClass().addAll("word-list");
-        wordList.setFocusTraversable(false);
-        model.getResultWordProperty().addListener((o, n, t) -> {
-            String val = String.format("%s (%d puan)", t, model.getPointPropertyValue());
-            wordList.getItems().add(val);
-            wordList.scrollTo(val);
-        });
-
-
-        hBoxPoint.getChildren().add(pointText);
-
-        hBoxButtons.getChildren().addAll(deleteButton, refreshButton, enterButton);
-
-        rightVBox.getChildren().addAll(pointText, wordList);
-
-        leftVBox.getChildren().addAll(innerTopHBox, beehive, hBoxButtons);
-
-        hBox.getChildren().addAll(leftVBox, rightVBox);
-
-    }
-
-    private void initBeeHive() {
-        beehive = new Beehive(letters.toUpperCase());
     }
 
     private void addLetterToInputBox(String letter, Color color) {
