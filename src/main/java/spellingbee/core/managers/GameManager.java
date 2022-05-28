@@ -75,7 +75,7 @@ public class GameManager implements GameService {
 
     private void checkLength(String inputWord) throws IllegalWordLengthException {
         if (inputWord.length() < MIN_WORD_LENGTH)
-            throw new IllegalWordLengthException(Messages.ILLEGAL_LETTERS_LENGTH);
+            throw new IllegalWordLengthException(Messages.ILLEGAL_WORD_LENGTH);
     }
 
     private void checkDictionary(String inputWord) throws DictionaryDoesNotContainWordException {
