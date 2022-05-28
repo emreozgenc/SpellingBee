@@ -20,11 +20,11 @@ public class GameController {
             model.setPointPropertyValue(pointResult.getPoint());
             model.setResultWordPropertyValue(pointResult.getWord());
             model.setCurrentPointPropertyValue(pointResult.getCurrentPoint());
-            System.out.println(pointResult.getCurrentPoint() + " " + pointResult.getWord() + " " + pointResult.getPoint());
+            model.setStatusPropertyValue(String.format("\"%s\" kelimesi bulundu!", pointResult.getWord()));
         } catch (DictionaryDoesNotContainWordException | IllegalWordLengthException |
                  WordContainsIllegalLetterException | WordDoesNotContainCenterLetterException |
                  WordAlreadyFoundException e) {
-            model.setErrorPropertyValue(e.getMessage());
+            model.setStatusPropertyValue(e.getMessage());
         }
     }
 }
