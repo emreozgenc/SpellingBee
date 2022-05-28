@@ -8,7 +8,7 @@ import javafx.beans.property.StringProperty;
 public class GameModel {
     private IntegerProperty pointProperty = new SimpleIntegerProperty();
     private StringProperty wordProperty = new SimpleStringProperty();
-    private StringProperty errorProperty = new SimpleStringProperty();
+    private StringProperty statusProperty = new SimpleStringProperty();
     private StringProperty resultWordProperty = new SimpleStringProperty();
     private IntegerProperty currentPointProperty = new SimpleIntegerProperty();
 
@@ -36,16 +36,16 @@ public class GameModel {
         return wordProperty;
     }
 
-    public void setErrorPropertyValue(String val) {
-        errorProperty.setValue(val);
+    public void setStatusPropertyValue(String val) {
+        statusProperty.setValue(val);
     }
 
-    public String getErrorPropertyValue() {
-        return errorProperty.getValue();
+    public String getStatusPropertyValue() {
+        return statusProperty.getValue();
     }
 
-    public StringProperty getErrorProperty() {
-        return errorProperty;
+    public StringProperty getStatusProperty() {
+        return statusProperty;
     }
 
     public void setResultWordPropertyValue(String val) {
