@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TxtReader implements DataReader {
-    private final String FILE_PATH = "dictionary.txt";
+    private final String FILE_PATH = "data.txt";
     private File file;
 
     public TxtReader() {
@@ -21,7 +21,8 @@ public class TxtReader implements DataReader {
             Scanner scanner = new Scanner(file, StandardCharsets.UTF_8);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                words.add(line);
+                if(line.length() > 3)
+                    words.add(line.toLowerCase());
             }
         } catch (Exception exception) {
             // To do
