@@ -14,6 +14,8 @@ import spellingbee.models.GameModel;
 import spellingbee.models.MenuModel;
 import spellingbee.views.GameView;
 
+import java.util.List;
+
 public class MenuController {
     private MenuModel model;
     private DataReader dataReader;
@@ -37,6 +39,7 @@ public class MenuController {
         GameCreatorService creatorService = new GameCreatorManager(dataFilter, dataReader);
         try {
             GameData data = creatorService.create();
+            debug(data.getWords(), data.getPangramWords(), data.getLetters());
             model.setErrorPropertyValue("");
             GameService gameService = new GameManager(data);
             GameModel gameModel = new GameModel();
@@ -55,6 +58,7 @@ public class MenuController {
         GameCreatorService creatorService = new GameCreatorManager(dataFilter, dataReader);
         try {
             GameData data = creatorService.create(model.getLettersPropertyValue());
+            debug(data.getWords(), data.getPangramWords(), data.getLetters());
             model.setErrorPropertyValue("");
             GameService gameService = new GameManager(data);
             GameModel gameModel = new GameModel();
@@ -67,5 +71,15 @@ public class MenuController {
                  NotUniqueLettersException | IllegalLettersLengthException | IllegalLetterException e) {
             model.setErrorPropertyValue(e.getMessage());
         }
+    }
+
+    private void debug(List<String> words, List<String> pangrams, String letters) {
+        System.out.println("Letters: " + letters);
+        System.out.printf("=== Pangrams ( %d ) ===%n", pangrams.size());
+        pangrams.forEach(System.out::println);
+        System.out.println("================");
+        System.out.printf("=== Words ( %d ) ===%n", words.size());
+        words.forEach(System.out::println);
+        System.out.println("=============");
     }
 }
