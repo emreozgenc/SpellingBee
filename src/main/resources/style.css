@@ -101,3 +101,8 @@
     -fx-font-family: Arial;
     -fx-font-weight: 700;
 }
+
+.status-text {
+    -fx-font-size: 14;
+    -fx-font-family: "Ubuntu";
+}
