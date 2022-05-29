@@ -10,6 +10,7 @@ public class UINames {
     public static final String MENU_FIELD_PROMPT = "Kullanılacak harfleri giriniz...";
     public static final String MENU_TITLE = "Arı Kovanı";
     public static final String MENU_INFO = "Yedi harf ile kaç kelime bulabilirsin?";
+    public static final String RETURN_MENU = "Ana menüye dön";
 
     public static final String CREATE_BUTTON = "Kendi Oyununu Oluştur";
 
