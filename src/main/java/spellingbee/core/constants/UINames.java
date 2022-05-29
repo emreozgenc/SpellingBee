@@ -11,4 +11,8 @@ public class UINames {
     public static final String MENU_TITLE = "Arı Kovanı";
     public static final String MENU_INFO = "Yedi harf ile kaç kelime bulabilirsin?";
 
+    public static final String CREATE_BUTTON = "Kendi Oyununu Oluştur";
+
+    public static final String CANCEL_BUTTON = "Geri Dön";
+
 }
