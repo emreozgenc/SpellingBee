@@ -26,12 +26,10 @@ public class MenuController {
         this.dataReader = dataReader;
         this.dataFilter = dataFilter;
     }
-
+    public void startWithLetters(){
+        handleStartWithLetters();
+    }
     public void start() {
-        if (model.getLettersPropertyValue().length() > 0) {
-            handleStartWithLetters();
-            return;
-        }
         handleStart();
     }
 
