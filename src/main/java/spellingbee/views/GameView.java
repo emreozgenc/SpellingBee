@@ -40,6 +40,7 @@ public class GameView extends View {
     private final HBox buttonsHBox;
     private final HBox leftInnerTopHBox;
     private final HBox inputBox;
+    private final HBox returnHBox;
     private final Beehive beehive;
     private final ListView<String> foundWordsList;
     private final Text pointerText;
@@ -47,6 +48,9 @@ public class GameView extends View {
     private final Text pointText;
     private final Button enterButton;
     private final Button shuffleButton;
+    private final Button returnButton;
+    private final Text returnText;
+    private final ImageView returnButtonGraphic;
     private final ImageView shuffleButtonGraphic;
     private final Button deleteButton;
 
@@ -76,6 +80,10 @@ public class GameView extends View {
         shuffleButton = new Button();
         deleteButton = new Button();
         shuffleButtonGraphic = new ImageView();
+        returnButtonGraphic = new ImageView();
+        returnButton = new Button();
+        returnHBox = new HBox();
+        returnText = new Text();
 
         beehive = new Beehive(this.letters.toUpperCase());
 
@@ -171,9 +179,29 @@ public class GameView extends View {
         foundWordsList.setFocusTraversable(false);
         foundWordsList.getStyleClass().add("word-list");
 
+        returnHBox.setAlignment(Pos.CENTER);
+        returnHBox.setSpacing(10);
+
+        returnText.setText(UINames.RETURN_MENU);
+        returnText.getStyleClass().add("status-text");
+
+        returnButton.setFocusTraversable(false);
+        returnButton.getStyleClass().addAll("btn", "btn-white", "btn-game");
+        returnButton.setGraphic(returnButtonGraphic);
+
+        returnButtonGraphic.setImage(new Image("return.png"));
+        returnButtonGraphic.setFitHeight(15);
+        returnButtonGraphic.setFitWidth(15);
+
+        returnHBox.getChildren().addAll(
+                returnButton,
+                returnText
+                );
+
         rightVBox.getChildren().addAll(
                 pointText,
-                foundWordsList
+                foundWordsList,
+                returnHBox
         );
 
         parentHBox.getChildren().addAll(
@@ -237,6 +265,9 @@ public class GameView extends View {
             String str = String.format("%s (%d puan)", model.getResultWordPropertyValue(), model.getPointPropertyValue());
             foundWordsList.getItems().add(str);
             foundWordsList.scrollTo(str);
+        });
+
+        model.getCurrentPointProperty().addListener((o, n, t) -> {
             pointText.setText(UINames.POINT_LABEL + model.getCurrentPointPropertyValue());
         });
 
@@ -256,6 +287,10 @@ public class GameView extends View {
                 inputBox.getChildren().remove(inputBox.getChildren().size() - 1);
                 input.delete(input.length() - 1, input.length());
             }
+        });
+
+        returnButton.setOnAction(e -> {
+            controller.returnMenu();
         });
     }
 
