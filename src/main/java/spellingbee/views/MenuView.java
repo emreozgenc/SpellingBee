@@ -12,72 +12,128 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import spellingbee.controllers.MenuController;
+import spellingbee.core.constants.Colors;
 import spellingbee.core.constants.UINames;
 import spellingbee.models.MenuModel;
 
+
 public class MenuView extends View {
-    private final Color BACKGROUND_COLOR = Color.rgb(255, 209, 0);
+    private final Color BACKGROUND_COLOR = Colors.MENU_BACKGROUND;
     private final String LOGO_PATH = "logo.png";
     private final int LOGO_SIZE = 140;
     private final double PADDING = 50;
     private MenuModel model;
     private MenuController controller;
+    private boolean status = true;
+    private double aspectRatio;
+    private Text title;
+    private Text info;
+    private Text warning;
+    private TextField lettersTextField;
+    private final VBox vBox;
+    private final HBox hBox;
+    private final VBox titleBox;
+    private final Button firstButton;
+    private final Button secondButton;
+    private final Button exitButton;
+    private final Image image;
+    private final ImageView logoView;
 
     public MenuView(MenuModel model, MenuController controller) {
         this.model = model;
         this.controller = controller;
+
+        vBox = new VBox();
+        hBox = new HBox();
+
+        image = new Image(LOGO_PATH);
+        logoView = new ImageView(image);
+
+        titleBox = new VBox();
+        title = new Text();
+        info = new Text();
+        warning = new Text();
+
+        lettersTextField = new TextField();
+
+        firstButton = new Button();
+        secondButton = new Button();
+        exitButton = new Button();
 
         init();
     }
 
     private void init() {
 
-        VBox vBox = new VBox();
         parent = vBox;
         vBox.setPadding(new Insets(PADDING));
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(Background.fill(BACKGROUND_COLOR));
 
-        Image image = new Image(LOGO_PATH);
-        ImageView logoView = new ImageView(image);
-        double aspectRatio = image.getWidth() / image.getHeight();
+        aspectRatio = image.getWidth() / image.getHeight();
         logoView.setFitWidth(LOGO_SIZE);
         logoView.setFitHeight(LOGO_SIZE * aspectRatio);
 
-        VBox titleBox = new VBox(10);
+        titleBox.setSpacing(10);
         titleBox.setPadding(new Insets(20));
         titleBox.setAlignment(Pos.CENTER);
 
-        Text title = new Text(UINames.MENU_TITLE);
+        title.setText(UINames.MENU_TITLE);
         title.getStyleClass().addAll("title");
 
-        Text info = new Text(UINames.MENU_INFO);
+        info.setText(UINames.MENU_INFO);
         info.getStyleClass().addAll("info");
 
-        Text warning = new Text();
         warning.getStyleClass().addAll("info");
         warning.textProperty().bind(model.getErrorProperty());
 
-        TextField lettersTextField = new TextField();
         model.getLettersProperty().bind(lettersTextField.textProperty());
         lettersTextField.setPromptText(UINames.MENU_FIELD_PROMPT);
         lettersTextField.getStyleClass().addAll("txtfield");
         lettersTextField.setFocusTraversable(false);
+        lettersTextField.setVisible(false);
 
-        HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(10, 0, 0, 0));
 
-        Button startButton = new Button(UINames.START_BUTTON);
-        Button exitButton = new Button(UINames.EXIT_BUTTON);
-        startButton.getStyleClass().addAll("btn", "btn-black");
+
+        firstButton.setText(UINames.START_BUTTON);
+
+        secondButton.setText(UINames.CREATE_BUTTON);
+
+        exitButton.setText(UINames.EXIT_BUTTON);
+
+        firstButton.getStyleClass().addAll("btn", "btn-black");
+        secondButton.getStyleClass().addAll("btn", "btn-black");
         exitButton.getStyleClass().addAll("btn", "btn-yellow");
 
-        startButton.setOnMouseClicked(e -> {
-            controller.start();
+        firstButton.setOnMouseClicked(e -> {
+            if (status) {
+                controller.start();
+            } else {
+                controller.startWithLetters();
+            }
         });
+
+        secondButton.setOnMouseClicked(e -> {
+            if (status) {
+                lettersTextField.setVisible(true);
+                status = !status;
+                firstButton.setText(UINames.START_BUTTON);
+                secondButton.setText(UINames.CANCEL_BUTTON);
+            } else {
+                lettersTextField.setVisible(false);
+                model.setErrorPropertyValue("");
+                lettersTextField.setText("");
+                status = !status;
+                firstButton.setText(UINames.START_BUTTON);
+                secondButton.setText(UINames.CREATE_BUTTON);
+            }
+        });
+
+        exitButton.setOnMouseClicked(e -> System.exit(0));
 
         titleBox.getChildren().addAll(
                 title,
@@ -85,7 +141,8 @@ public class MenuView extends View {
         );
 
         hBox.getChildren().addAll(
-                startButton,
+                firstButton,
+                secondButton,
                 exitButton
         );
 
