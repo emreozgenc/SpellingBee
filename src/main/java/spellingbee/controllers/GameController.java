@@ -1,13 +1,17 @@
 package spellingbee.controllers;
 
+import javafx.scene.Scene;
+import spellingbee.App;
 import spellingbee.core.exceptions.*;
 import spellingbee.core.managers.GameService;
 import spellingbee.core.results.PointResult;
 import spellingbee.models.GameModel;
+import spellingbee.models.MenuModel;
+import spellingbee.views.MenuView;
 
 public class GameController {
-    private GameModel model;
-    private GameService gameService;
+    private final GameModel model;
+    private final GameService gameService;
 
     public GameController(GameModel model, GameService gameService) {
         this.model = model;
@@ -26,5 +30,14 @@ public class GameController {
                  WordAlreadyFoundException e) {
             model.setStatusPropertyValue(e.getMessage());
         }
+    }
+
+    public void returnMenu() {
+        MenuModel model = new MenuModel();
+        MenuController controller = new MenuController(model, App.getInstance().getDataReader(), App.getInstance().getDataFilter());
+        MenuView view = new MenuView(model, controller);
+        Scene scene = new Scene(view.getAsParent());
+        scene.getStylesheets().add("style.css");
+        App.getInstance().setScene(scene);
     }
 }
