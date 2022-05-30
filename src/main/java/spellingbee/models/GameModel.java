@@ -11,6 +11,7 @@ public class GameModel {
     private StringProperty statusProperty = new SimpleStringProperty();
     private StringProperty resultWordProperty = new SimpleStringProperty();
     private IntegerProperty currentPointProperty = new SimpleIntegerProperty();
+    private IntegerProperty maximumPointProperty = new SimpleIntegerProperty();
 
     public void setPointPropertyValue(int val) {
         pointProperty.setValue(val);
@@ -71,4 +72,17 @@ public class GameModel {
     public IntegerProperty getCurrentPointProperty() {
         return currentPointProperty;
     }
+
+    public void setMaximumPointPropertyValue(int val) {
+        maximumPointProperty.setValue(val);
+    }
+
+    public int getMaximumPointPropertyValue() {
+        return maximumPointProperty.getValue();
+    }
+
+    public IntegerProperty getMaximumPointProperty() {
+        return maximumPointProperty;
+    }
+
 }
