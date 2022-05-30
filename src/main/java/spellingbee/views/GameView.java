@@ -174,7 +174,7 @@ public class GameView extends View {
         rightVBox.setSpacing(10);
 
         pointText.getStyleClass().add("point-text");
-        pointText.setText(UINames.POINT_LABEL + 0);
+        pointText.setText(UINames.POINT_LABEL + 0 + " / " + model.getMaximumPointPropertyValue());
 
         foundWordsList.setFocusTraversable(false);
         foundWordsList.getStyleClass().add("word-list");
@@ -196,7 +196,7 @@ public class GameView extends View {
         returnHBox.getChildren().addAll(
                 returnButton,
                 returnText
-                );
+        );
 
         rightVBox.getChildren().addAll(
                 pointText,
@@ -268,7 +268,7 @@ public class GameView extends View {
         });
 
         model.getCurrentPointProperty().addListener((o, n, t) -> {
-            pointText.setText(UINames.POINT_LABEL + model.getCurrentPointPropertyValue());
+            pointText.setText(UINames.POINT_LABEL + model.getCurrentPointPropertyValue() + " / " + model.getMaximumPointPropertyValue());
         });
 
         shuffleButton.setOnAction(e -> {

@@ -16,6 +16,7 @@ public class GameController {
     public GameController(GameModel model, GameService gameService) {
         this.model = model;
         this.gameService = gameService;
+        model.setMaximumPointPropertyValue(this.gameService.getMaximumPoint());
     }
 
     public void check() {
