@@ -1,7 +1,6 @@
 package spellingbee.core.managers;
 
 import spellingbee.core.constants.Messages;
-import spellingbee.core.constants.UINames;
 import spellingbee.core.data.GameData;
 import spellingbee.core.exceptions.*;
 import spellingbee.core.results.PointResult;
@@ -16,9 +15,12 @@ public class GameManager implements GameService {
     private int currentPoint = 0;
     private List<String> foundWords;
 
+    private final int maximumPoint;
+
     public GameManager(GameData data) {
         this.data = data;
         foundWords = new ArrayList<>();
+        maximumPoint = calculateMaximumPoint();
     }
 
     @Override
@@ -38,8 +40,8 @@ public class GameManager implements GameService {
     }
 
     private void checkFound(String inputWord) throws WordAlreadyFoundException {
-        if (foundWords.contains(inputWord)){
-             throw new WordAlreadyFoundException(Messages.WORD_ALREADY_FOUND);
+        if (foundWords.contains(inputWord)) {
+            throw new WordAlreadyFoundException(Messages.WORD_ALREADY_FOUND);
         }
     }
 
@@ -81,5 +83,20 @@ public class GameManager implements GameService {
     private void checkDictionary(String inputWord) throws DictionaryDoesNotContainWordException {
         if (!data.getWords().contains(inputWord))
             throw new DictionaryDoesNotContainWordException(Messages.DICTIONARY_DOES_NOT_CONTAIN_WORD);
+    }
+
+    private int calculateMaximumPoint() {
+        int point = 0;
+
+        for (String word : data.getWords()) {
+            point += calculatePoint(word);
+        }
+
+        return point;
+    }
+
+    @Override
+    public int getMaximumPoint() {
+        return maximumPoint;
     }
 }
