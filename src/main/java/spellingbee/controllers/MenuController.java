@@ -55,7 +55,7 @@ public class MenuController {
     private void handleStartWithLetters() {
         GameCreatorService creatorService = new GameCreatorManager(dataFilter, dataReader);
         try {
-            GameData data = creatorService.create(model.getLettersPropertyValue());
+            GameData data = creatorService.create(model.getLettersPropertyValue().toLowerCase());
             debug(data.getWords(), data.getPangramWords(), data.getLetters());
             model.setErrorPropertyValue("");
             GameService gameService = new GameManager(data);
