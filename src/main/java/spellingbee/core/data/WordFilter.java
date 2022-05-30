@@ -14,6 +14,7 @@ public class WordFilter implements DataFilter {
         List<Character> uniqueLetters = getUniqueLetters(randomPangram);
 
         StringBuilder letters = new StringBuilder();
+        mixLetters(uniqueLetters);
         uniqueLetters.forEach(letters::append);
 
         return filter(words, letters.toString());
@@ -25,11 +26,10 @@ public class WordFilter implements DataFilter {
 
         List<String> firstFilter = filterWordsContainUnusedLetters(words, letters);
         List<String> secondFilter = filterWordsNotContainCenterLetter(firstFilter, centerLetter);
-        List<String> pangramWords = findPangrams(secondFilter, letters);
+        List<String> thirdFilter = filterWordsAppearMoreThanOnce(secondFilter);
+        List<String> pangramWords = findPangrams(thirdFilter, letters);
 
-        FilteredData filteredData = new FilteredData(secondFilter, pangramWords, letters);
-
-        return filteredData;
+        return new FilteredData(thirdFilter, pangramWords, letters);
     }
 
     private List<String> findPangrams(List<String> words) {
@@ -135,6 +135,30 @@ public class WordFilter implements DataFilter {
         }
 
         return filteredWords;
+    }
+
+    private List<String> filterWordsAppearMoreThanOnce(List<String> words) {
+        List<String> filteredWords = new LinkedList<>();
+
+        for (String word : words) {
+            if (!filteredWords.contains(word)) {
+                filteredWords.add(word);
+            }
+        }
+
+        return filteredWords;
+    }
+
+    private void mixLetters(List<Character> letters) {
+        Random random = new Random();
+
+        for (int i = 0; i < letters.size(); i++) {
+            int randomIndex = random.nextInt(letters.size());
+            char temp = letters.get(randomIndex);
+            letters.set(randomIndex, letters.get(i));
+            letters.set(i, temp);
+        }
+
     }
 
     private boolean lettersContainCharacter(String letters, char character) {
