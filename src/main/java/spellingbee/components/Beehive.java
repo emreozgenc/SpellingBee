@@ -1,20 +1,14 @@
 package spellingbee.components;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
+import spellingbee.core.constants.Colors;
 
 import java.util.Random;
 
 public class Beehive extends Pane {
 
-    // Temporary
-    private String letters;
     private BeehiveCell[] cells;
     private final double CELL_EDGE_WIDTH = 50;
-    private final Color CENTER_CELL_BACKGROUND_OUTPUT = Color.rgb(255, 209, 0);
-    private final Color CELL_OUTPUT = Color.BLACK;
-    private final Color CELL_BACKGROUND = Color.rgb(225, 225, 225);
     private final int[][] cellMap = {
             {0, 1, 0},
             {1, 0, 1},
@@ -24,13 +18,12 @@ public class Beehive extends Pane {
     };
 
     public Beehive(String letters) {
-        this.letters = letters;
         cells = new BeehiveCell[letters.length()];
         for (int i = 0; i < cells.length; i++) {
             cells[i] = new BeehiveCell(Character.toString(letters.charAt(i)),
                     CELL_EDGE_WIDTH,
-                    i == cells.length / 2 ? CENTER_CELL_BACKGROUND_OUTPUT : CELL_BACKGROUND,
-                    i == cells.length / 2 ? CENTER_CELL_BACKGROUND_OUTPUT : CELL_OUTPUT);
+                    i == cells.length / 2 ? Colors.CELL_CENTER_POLYGON : Colors.CELL_POLYGON,
+                    i == cells.length / 2 ? Colors.CELL_CENTER_OUTPUT : Colors.CELL_OUTPUT);
         }
         int cellIndex = 0;
         for (int i = 0; i < cellMap.length; i++) {
@@ -48,8 +41,8 @@ public class Beehive extends Pane {
 
     public void shuffle() {
         Random random = new Random();
-        for(int i=0;i<cells.length;i++) {
-            if(i != 3) cells[i].playShuffleAnimation();
+        for (int i = 0; i < cells.length; i++) {
+            if (i != 3) cells[i].playShuffleAnimation();
         }
         for (int i = 0; i < cells.length; i++) {
             int randomIndex = random.nextInt(cells.length);
