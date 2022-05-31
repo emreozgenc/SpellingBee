@@ -18,31 +18,29 @@ import java.util.List;
 
 public class MenuController {
     private MenuModel model;
-    private DataReader dataReader;
-    private DataFilter dataFilter;
 
-    public MenuController(MenuModel model, DataReader dataReader, DataFilter dataFilter) {
+    public MenuController(MenuModel model) {
         this.model = model;
-        this.dataReader = dataReader;
-        this.dataFilter = dataFilter;
     }
-    public void startWithLetters(){
+
+    public void startWithLetters() {
         handleStartWithLetters();
     }
+
     public void start() {
         handleStart();
     }
 
     private void handleStart() {
-        GameCreatorService creatorService = new GameCreatorManager(dataFilter, dataReader);
+        GameCreatorService creatorService = new GameCreatorManager(App.getInstance().getDataFilter(), App.getInstance().getDataReader());
         try {
             GameData data = creatorService.create();
             debug(data.getWords(), data.getPangramWords(), data.getLetters());
             model.setErrorPropertyValue("");
             GameService gameService = new GameManager(data);
-            GameModel gameModel = new GameModel();
-            GameController gameController = new GameController(gameModel,gameService);
-            GameView gameView = new GameView(gameModel,gameController,data.getLetters());
+            GameModel gameModel = new GameModel(data.getLetters());
+            GameController gameController = new GameController(gameModel, gameService);
+            GameView gameView = new GameView(gameModel, gameController);
             Scene scene = new Scene(gameView.getAsParent());
             scene.getStylesheets().addAll("style.css");
             App.getInstance().setScene(scene);
@@ -53,15 +51,15 @@ public class MenuController {
     }
 
     private void handleStartWithLetters() {
-        GameCreatorService creatorService = new GameCreatorManager(dataFilter, dataReader);
+        GameCreatorService creatorService = new GameCreatorManager(App.getInstance().getDataFilter(), App.getInstance().getDataReader());
         try {
             GameData data = creatorService.create(model.getLettersPropertyValue().toLowerCase());
             debug(data.getWords(), data.getPangramWords(), data.getLetters());
             model.setErrorPropertyValue("");
             GameService gameService = new GameManager(data);
-            GameModel gameModel = new GameModel();
-            GameController gameController = new GameController(gameModel,gameService);
-            GameView gameView = new GameView(gameModel,gameController,data.getLetters());
+            GameModel gameModel = new GameModel(data.getLetters());
+            GameController gameController = new GameController(gameModel, gameService);
+            GameView gameView = new GameView(gameModel, gameController);
             Scene scene = new Scene(gameView.getAsParent());
             scene.getStylesheets().addAll("style.css");
             App.getInstance().setScene(scene);
