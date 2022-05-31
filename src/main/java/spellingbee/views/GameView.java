@@ -1,15 +1,12 @@
 package spellingbee.views;
 
 import javafx.animation.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -18,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import spellingbee.components.Beehive;
 import spellingbee.components.BeehiveCell;
@@ -58,10 +54,10 @@ public class GameView extends View {
     private SequentialTransition shakeAnimation;
 
 
-    public GameView(GameModel model, GameController controller, String letters) {
+    public GameView(GameModel model, GameController controller) {
+        this.letters = model.letters;
         this.model = model;
         this.controller = controller;
-        this.letters = letters;
         input = new StringBuilder();
 
         parentHBox = new HBox();
