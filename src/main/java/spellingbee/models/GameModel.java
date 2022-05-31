@@ -13,6 +13,12 @@ public class GameModel {
     private IntegerProperty currentPointProperty = new SimpleIntegerProperty();
     private IntegerProperty maximumPointProperty = new SimpleIntegerProperty();
 
+    public final String letters;
+
+    public GameModel(String letters) {
+        this.letters = letters;
+    }
+
     public void setPointPropertyValue(int val) {
         pointProperty.setValue(val);
     }
