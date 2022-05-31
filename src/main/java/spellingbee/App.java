@@ -32,7 +32,7 @@ public class App extends Application {
         this.stage = stage;
 
         MenuModel model = new MenuModel();
-        MenuController controller = new MenuController(model, dataReader, dataFilter);
+        MenuController controller = new MenuController(model);
         MenuView view = new MenuView(model, controller);
         Scene scene = new Scene(view.getAsParent());
         scene.getStylesheets().addAll("style.css");

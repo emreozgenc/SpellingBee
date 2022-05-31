@@ -35,7 +35,7 @@ public class GameController {
 
     public void returnMenu() {
         MenuModel model = new MenuModel();
-        MenuController controller = new MenuController(model, App.getInstance().getDataReader(), App.getInstance().getDataFilter());
+        MenuController controller = new MenuController(model);
         MenuView view = new MenuView(model, controller);
         Scene scene = new Scene(view.getAsParent());
         scene.getStylesheets().add("style.css");
