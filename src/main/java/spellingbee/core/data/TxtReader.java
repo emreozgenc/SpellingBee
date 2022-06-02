@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class TxtReader implements DataReader {
     private final String FILE_PATH = "data.txt";
-    private File file;
+    private final File file;
     private List<String> data;
 
     public TxtReader() {

@@ -11,9 +11,9 @@ import java.util.List;
 public class GameManager implements GameService {
 
     private final int MIN_WORD_LENGTH = 4;
-    private GameData data;
+    private final GameData data;
     private int currentPoint = 0;
-    private List<String> foundWords;
+    private final List<String> foundWords;
 
     private final int maximumPoint;
 

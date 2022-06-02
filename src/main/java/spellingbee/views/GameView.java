@@ -27,10 +27,10 @@ import spellingbee.core.constants.UINames;
 import spellingbee.models.GameModel;
 
 public class GameView extends View {
-    private GameModel model;
-    private GameController controller;
-    private String letters;
-    private StringBuilder input;
+    private final GameModel model;
+    private final GameController controller;
+    private final String letters;
+    private final StringBuilder input;
 
     /* Components */
     private final HBox parentHBox;

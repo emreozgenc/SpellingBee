@@ -6,12 +6,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class GameModel {
-    private IntegerProperty pointProperty = new SimpleIntegerProperty();
-    private StringProperty wordProperty = new SimpleStringProperty();
-    private StringProperty statusProperty = new SimpleStringProperty();
-    private StringProperty resultWordProperty = new SimpleStringProperty();
-    private IntegerProperty currentPointProperty = new SimpleIntegerProperty();
-    private IntegerProperty maximumPointProperty = new SimpleIntegerProperty();
+    private final IntegerProperty pointProperty = new SimpleIntegerProperty();
+    private final StringProperty wordProperty = new SimpleStringProperty();
+    private final StringProperty statusProperty = new SimpleStringProperty();
+    private final StringProperty resultWordProperty = new SimpleStringProperty();
+    private final IntegerProperty currentPointProperty = new SimpleIntegerProperty();
+    private final IntegerProperty maximumPointProperty = new SimpleIntegerProperty();
 
     public final String letters;
 

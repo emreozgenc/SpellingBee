@@ -1,9 +1,9 @@
 package spellingbee.core.results;
 
 public class PointResult {
-    private String word;
-    private int point;
-    private int currentPoint;
+    private final String word;
+    private final int point;
+    private final int currentPoint;
 
     public PointResult(String word, int point, int currentPoint) {
         this.word = word;

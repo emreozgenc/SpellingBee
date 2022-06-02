@@ -15,7 +15,7 @@ import spellingbee.views.GameView;
 import java.util.List;
 
 public class MenuController {
-    private MenuModel model;
+    private final MenuModel model;
 
     public MenuController(MenuModel model) {
         this.model = model;

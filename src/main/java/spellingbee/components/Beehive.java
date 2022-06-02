@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Beehive extends Pane {
 
-    private BeehiveCell[] cells;
+    private final BeehiveCell[] cells;
     private final double CELL_EDGE_WIDTH = 50;
     private final boolean[][] cellMap = {
             {false, true, false},

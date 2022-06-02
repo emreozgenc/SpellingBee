@@ -13,9 +13,9 @@ import javafx.util.Duration;
 public class BeehiveCell extends StackPane {
     private String cellValue;
     private Polygon polygon;
-    private double edgeWidth;
-    private Color backgroundColor;
-    private Color outputColor;
+    private final double edgeWidth;
+    private final Color backgroundColor;
+    private final Color outputColor;
     private Text cellText;
     private ScaleTransition shrinkTransition;
     private ScaleTransition growTransition;
@@ -37,14 +37,12 @@ public class BeehiveCell extends StackPane {
     }
 
     private void init() {
-        polygon = new Polygon(new double[]{
-                0.0, 0.0,
+        polygon = new Polygon(0.0, 0.0,
                 edgeWidth, 0.0,
                 1.5 * edgeWidth, 0.5 * edgeWidth * Math.sqrt(3),
                 edgeWidth, edgeWidth * Math.sqrt(3),
                 0.0, edgeWidth * Math.sqrt(3),
-                -0.5 * edgeWidth, 0.5 * edgeWidth * Math.sqrt(3)
-        });
+                -0.5 * edgeWidth, 0.5 * edgeWidth * Math.sqrt(3));
 
         setPickOnBounds(false);
 

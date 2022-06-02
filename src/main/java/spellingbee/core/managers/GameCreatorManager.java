@@ -13,10 +13,10 @@ import java.util.Random;
 
 public class GameCreatorManager implements GameCreatorService {
 
-    private DataReader dataReader;
-    private DataFilter dataFilter;
-    private List<String> selectedWords;
-    private Random r;
+    private final DataReader dataReader;
+    private final DataFilter dataFilter;
+    private final List<String> selectedWords;
+    private final Random r;
     private final String TURKISH_LETTERS = "abcçdefgğhıijklmnoöprsştuüvyz";
 
     public GameCreatorManager(DataFilter dataFilter, DataReader dataReader) {
