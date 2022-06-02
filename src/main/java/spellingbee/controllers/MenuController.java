@@ -2,8 +2,6 @@ package spellingbee.controllers;
 
 import javafx.scene.Scene;
 import spellingbee.App;
-import spellingbee.core.data.DataFilter;
-import spellingbee.core.data.DataReader;
 import spellingbee.core.data.GameData;
 import spellingbee.core.exceptions.*;
 import spellingbee.core.managers.GameCreatorManager;

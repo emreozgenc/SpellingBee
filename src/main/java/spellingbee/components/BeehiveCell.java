@@ -3,16 +3,12 @@ package spellingbee.components;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-
-import java.util.List;
 
 public class BeehiveCell extends StackPane {
     private String cellValue;
