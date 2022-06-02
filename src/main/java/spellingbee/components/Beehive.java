@@ -9,12 +9,12 @@ public class Beehive extends Pane {
 
     private BeehiveCell[] cells;
     private final double CELL_EDGE_WIDTH = 50;
-    private final int[][] cellMap = {
-            {0, 1, 0},
-            {1, 0, 1},
-            {0, 1, 0},
-            {1, 0, 1},
-            {0, 1, 0}
+    private final boolean[][] cellMap = {
+            {false, true, false},
+            {true, false, true},
+            {false, true, false},
+            {true, false, true},
+            {false, true, false}
     };
 
     public Beehive(String letters) {
@@ -28,7 +28,7 @@ public class Beehive extends Pane {
         int cellIndex = 0;
         for (int i = 0; i < cellMap.length; i++) {
             for (int j = 0; j < cellMap[i].length; j++) {
-                if (cellMap[i][j] == 1) {
+                if (cellMap[i][j]) {
                     BeehiveCell cell = cells[cellIndex];
                     cell.setLayoutX(j * 1.5 * CELL_EDGE_WIDTH);
                     cell.setLayoutY(i * Math.sqrt(3) * 0.5 * CELL_EDGE_WIDTH);
