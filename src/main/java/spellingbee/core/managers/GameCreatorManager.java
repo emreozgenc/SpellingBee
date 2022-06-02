@@ -13,7 +13,6 @@ import java.util.Random;
 
 public class GameCreatorManager implements GameCreatorService {
 
-    private GameData gameData;
     private DataReader dataReader;
     private DataFilter dataFilter;
     private List<String> selectedWords;
@@ -43,8 +42,7 @@ public class GameCreatorManager implements GameCreatorService {
         secondStatusChecks(filteredWords, pangramWords);
 
         if (startTheGame(filteredWords, pangramWords)) {
-            gameData = new GameData(filteredWords, pangramWords, letters);
-            return gameData;
+            return new GameData(filteredWords, pangramWords, letters);
         }
         return prepareTheGame(filteredData, filteredWords, pangramWords, letters);
 
@@ -62,8 +60,7 @@ public class GameCreatorManager implements GameCreatorService {
         secondStatusChecks(filteredWords, pangramWords);
 
         if (startTheGame(filteredWords, pangramWords)) {
-            gameData = new GameData(filteredWords, pangramWords, letters);
-            return gameData;
+            return new GameData(filteredWords, pangramWords, letters);
         }
         return prepareTheGame(filteredData, filteredWords, pangramWords, letters);
     }
@@ -169,11 +166,7 @@ public class GameCreatorManager implements GameCreatorService {
     }
 
     private boolean startTheGame(List<String> filteredWords, List<String> pangramWords) {
-        return filteredWordsTotal(pangramWords, filteredWords) < 400 && filteredWords.size() <= 80;
-    }
-
-    private String selectRandomPangram(List<String> pangramWords) {
-        return pangramWords.get(r.nextInt(pangramWords.size()));
+        return filteredWordsTotal(pangramWords, filteredWords) <= 400 && filteredWords.size() <= 80;
     }
 
     private FilteredData filterWords(String letters) {
