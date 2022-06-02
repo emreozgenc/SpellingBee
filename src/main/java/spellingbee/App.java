@@ -50,6 +50,7 @@ public class App extends Application {
 
     public void setScene(Scene scene) {
         stage.setScene(scene);
+        stage.centerOnScreen();
     }
 
     public static void main(String[] args) {
