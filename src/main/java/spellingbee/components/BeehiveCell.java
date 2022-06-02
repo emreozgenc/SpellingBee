@@ -54,10 +54,8 @@ public class BeehiveCell extends StackPane {
 
         cellText = new Text(cellValue);
         cellText.setPickOnBounds(false);
-        cellText.setStyle(
-                "-fx-font-size: 18;" +
-                        "-fx-font-family:Arial;" +
-                        "-fx-font-weight:700");
+        cellText.getStyleClass().add("cell-text");
+
         polygon.setStroke(Color.WHITE);
         polygon.setStrokeWidth(7.5);
         polygon.setFill(backgroundColor);

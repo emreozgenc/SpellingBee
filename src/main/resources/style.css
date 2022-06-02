@@ -106,3 +106,9 @@
     -fx-font-size: 14;
     -fx-font-family: "Ubuntu";
 }
+
+.cell-text {
+    -fx-font-family: Arial;
+    -fx-font-size: 18;
+    -fx-font-weight: 700;
+}
