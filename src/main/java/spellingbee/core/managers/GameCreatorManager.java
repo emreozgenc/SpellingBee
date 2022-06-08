@@ -27,7 +27,7 @@ public class GameCreatorManager implements GameCreatorService {
         r = new Random();
     }
 
-    public GameData create(String letters) throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException, IllegalLettersLengthException, NotUniqueLettersException, IllegalLetterException {
+    public GameData create(String letters) throws PangramNotFoundException, IllegalWordCountException, IllegalPointRangeException, IllegalLettersLengthException, NotUniqueLettersException, IllegalLetterException {
 
         lettersCheck(letters);
 
@@ -41,14 +41,11 @@ public class GameCreatorManager implements GameCreatorService {
 
         secondStatusChecks(filteredWords, pangramWords);
 
-        if (startTheGame(filteredWords, pangramWords)) {
-            return new GameData(filteredWords, pangramWords, letters);
-        }
-        return prepareTheGame(filteredData, filteredWords, pangramWords, letters);
+        return new GameData(filteredWords, pangramWords, letters);
 
     }
 
-    public GameData create() throws PangramNotFoundException, NotEnoughWordsException, IllegalPointRangeException {
+    public GameData create() throws PangramNotFoundException, IllegalWordCountException, IllegalPointRangeException {
 
         FilteredData filteredData = filterWords();
 
@@ -59,14 +56,15 @@ public class GameCreatorManager implements GameCreatorService {
 
         secondStatusChecks(filteredWords, pangramWords);
 
-        if (startTheGame(filteredWords, pangramWords)) {
-            return new GameData(filteredWords, pangramWords, letters);
-        }
-        return prepareTheGame(filteredData, filteredWords, pangramWords, letters);
+        return new GameData(filteredWords, pangramWords, letters);
     }
 
     private boolean totalPointAcceptable(int totalPoint) {
         return totalPoint >= 100 && totalPoint <= 400;
+    }
+
+    private boolean wordCountAcceptable(int wordCount) {
+        return wordCount >= 20 && wordCount <= 80;
     }
 
     private boolean isPangram(List<String> pangramWords, String word) {
@@ -89,30 +87,6 @@ public class GameCreatorManager implements GameCreatorService {
             totalPoint += getWordPoint(pangramWords, word);
         }
         return totalPoint;
-    }
-
-    private GameData prepareTheGame(FilteredData filteredData, List<String> filteredWords, List<String> pangramWords, String letters) {
-        List<String> newPangrams = new ArrayList<>();
-        int totalPoint = 0;
-        while (!totalPointAcceptable(totalPoint) || newPangrams.size() == 0) {
-            int wordCount = 20 + r.nextInt(Math.min(61, filteredData.getWords().size() - 20));
-            totalPoint = 0;
-            selectedWords.clear();
-            newPangrams.clear();
-            while (selectedWords.size() < wordCount) {
-                String randomWord = filteredWords.get(r.nextInt(filteredWords.size()));
-                if (!selectedWords.contains(randomWord)) {
-                    selectedWords.add(randomWord);
-                    if (pangramWords.contains(randomWord) && !newPangrams.contains(randomWord)) {
-                        newPangrams.add(randomWord);
-                    }
-                }
-            }
-            for (String word : selectedWords) {
-                totalPoint += getWordPoint(pangramWords, word);
-            }
-        }
-        return new GameData(selectedWords, newPangrams, letters);
     }
 
     private void lettersCheck(String letters) throws IllegalLettersLengthException, NotUniqueLettersException, IllegalLetterException {
@@ -150,23 +124,19 @@ public class GameCreatorManager implements GameCreatorService {
         }
     }
 
-    private void firstStatusChecks(FilteredData filteredData) throws PangramNotFoundException, NotEnoughWordsException {
+    private void firstStatusChecks(FilteredData filteredData) throws PangramNotFoundException, IllegalWordCountException {
         if (filteredData.getPangramWords().size() == 0) {
             throw new PangramNotFoundException(Messages.PANGRAM_NOT_FOUND);
         }
-        if (filteredData.getWords().size() < 20) {
-            throw new NotEnoughWordsException(Messages.NOT_ENOUGH_WORDS);
+        if (!wordCountAcceptable(filteredData.getWords().size())) {
+            throw new IllegalWordCountException(Messages.ILLEGAL_WORD_COUNT);
         }
     }
 
     private void secondStatusChecks(List<String> filteredWords, List<String> pangramWords) throws IllegalPointRangeException {
-        if (filteredWordsTotal(pangramWords, filteredWords) < 100) {
+        if (!totalPointAcceptable(filteredWordsTotal(pangramWords, filteredWords))) {
             throw new IllegalPointRangeException(Messages.ILLEGAL_POINT_RANGE);
         }
-    }
-
-    private boolean startTheGame(List<String> filteredWords, List<String> pangramWords) {
-        return filteredWordsTotal(pangramWords, filteredWords) <= 400 && filteredWords.size() <= 80;
     }
 
     private FilteredData filterWords(String letters) {
