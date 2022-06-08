@@ -42,7 +42,7 @@ public class MenuController {
             Scene scene = new Scene(gameView.getAsParent());
             scene.getStylesheets().addAll("style.css");
             App.getInstance().setScene(scene);
-        } catch (PangramNotFoundException | IllegalPointRangeException | NotEnoughWordsException e) {
+        } catch (PangramNotFoundException | IllegalPointRangeException | IllegalWordCountException e) {
             handleStart();
         }
 
@@ -61,7 +61,7 @@ public class MenuController {
             Scene scene = new Scene(gameView.getAsParent());
             scene.getStylesheets().addAll("style.css");
             App.getInstance().setScene(scene);
-        } catch (PangramNotFoundException | IllegalPointRangeException | NotEnoughWordsException |
+        } catch (PangramNotFoundException | IllegalPointRangeException | IllegalWordCountException |
                  NotUniqueLettersException | IllegalLettersLengthException | IllegalLetterException e) {
             model.setErrorPropertyValue(e.getMessage());
         }
